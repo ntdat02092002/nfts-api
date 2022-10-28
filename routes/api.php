@@ -22,7 +22,10 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     // public routes
     Route::post('/login', 'Auth\ApiAuthController@login')->name('login.api');
     Route::post('/register','Auth\ApiAuthController@register')->name('register.api');
-    
+
+    Route::post('/password/forgot', 'Auth\ResetPasswordController@forgot');
+    Route::get('/password/find/{token}', 'Auth\ResetPasswordController@find');
+    Route::post('/password/reset', 'Auth\ResetPasswordController@reset');
     
     Route::middleware('auth:api')->group(function () {
         // our routes to be protected will go in here
