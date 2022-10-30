@@ -30,6 +30,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::middleware('auth:api')->group(function () {
         // our routes to be protected will go in here
         Route::post('/logout', 'Auth\ApiAuthController@logout')->name('logout.api');
+        Route::post('/password/change', 'Auth\ChangePasswordController@change');
 
         Route::get('posts', "PostController@index"); // List Posts
         Route::post('posts', "PostController@store"); // Create Post
