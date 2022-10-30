@@ -14,12 +14,29 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
-Route::middleware('auth:sanctum')->get('/user', function (Request $request) {
+Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
 
-Route::get('posts', "PostController@index"); // List Posts
-Route::post('posts', "PostController@store"); // Create Post
-Route::get('posts/{id}', "PostController@show"); // Detail of Post
-Route::put('posts/{id}', "PostController@update"); // Update Post
-Route::delete('posts/{id}', "PostController@destroy"); // Delete Post
+Route::group(['middleware' => ['cors', 'json.response']], function () {
+    // public routes
+    Route::post('/login', 'Auth\ApiAuthController@login')->name('login.api');
+    Route::post('/register','Auth\ApiAuthController@register')->name('register.api');
+
+    Route::post('/password/forgot', 'Auth\ResetPasswordController@forgot');
+    Route::get('/password/find/{token}', 'Auth\ResetPasswordController@find');
+    Route::post('/password/reset', 'Auth\ResetPasswordController@reset');
+    
+    Route::middleware('auth:api')->group(function () {
+        // our routes to be protected will go in here
+        Route::post('/logout', 'Auth\ApiAuthController@logout')->name('logout.api');
+        Route::post('/password/change', 'Auth\ChangePasswordController@change');
+
+        Route::get('posts', "PostController@index"); // List Posts
+        Route::post('posts', "PostController@store"); // Create Post
+        Route::get('posts/{id}', "PostController@show"); // Detail of Post
+        Route::put('posts/{id}', "PostController@update"); // Update Post
+        Route::delete('posts/{id}', "PostController@destroy"); // Delete Post
+    });
+});
+
