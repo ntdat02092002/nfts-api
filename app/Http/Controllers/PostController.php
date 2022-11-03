@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Post;
+use App\Filters\postFilter;
 
 class PostController extends Controller
 {
@@ -12,14 +13,19 @@ class PostController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         // All Posts
-        $posts = Post::all();
+        // $posts = Post::all();
+
+        $postFilter = new postFilter($request);
+        $posts = Post::filter($postFilter)->get();
+        $total = $posts->count();
 
         // Return Json Response
         return response()->json([
-            'posts' => $posts
+            'posts' => $posts,
+            'total' => $total
         ],200);
     }
 
