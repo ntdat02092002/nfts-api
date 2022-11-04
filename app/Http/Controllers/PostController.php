@@ -15,16 +15,28 @@ class PostController extends Controller
      */
     public function index(Request $request)
     {
-        // All Posts
-        // $posts = Post::all();
+        $orderField = $request->orderBy ? $request->orderBy : 'id';
+        $order = $request->order ? $request->order : 'asc';
+        $limit = $request->limit ? $request->limit : 20;
+        $page = $request->page && $request->page > 0 ? $request->page : 1;
+        $offset = ($page - 1) * $limit;
 
         $postFilter = new postFilter($request);
-        $posts = Post::filter($postFilter)->get();
+        $posts = Post::filter($postFilter)
+            ->orderBy($orderField, $order);
         $total = $posts->count();
+
+        $posts= $posts
+            ->offset($offset)
+            ->limit($limit)
+            ->get();
+        $currentPage = $posts->count();
 
         // Return Json Response
         return response()->json([
             'posts' => $posts,
+            'page' => $page,
+            'currentPage' => $currentPage,
             'total' => $total
         ],200);
     }
