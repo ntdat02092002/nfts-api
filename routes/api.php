@@ -32,11 +32,28 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::post('/logout', 'Auth\ApiAuthController@logout')->name('logout.api');
         Route::post('/password/change', 'Auth\ChangePasswordController@change');
 
+        // Post
         Route::get('posts', "PostController@index"); // List Posts
         Route::post('posts', "PostController@store"); // Create Post
         Route::get('posts/{id}', "PostController@show"); // Detail of Post
         Route::put('posts/{id}', "PostController@update"); // Update Post
         Route::delete('posts/{id}', "PostController@destroy"); // Delete Post
     });
+
+    
 });
 
+// Topic
+Route::get('topics', "TopicController@index"); // List topics
+Route::post('topics', "TopicController@store"); // Create Topic
+Route::get('topics/{id}', "TopicController@show"); // Detail of Topic
+Route::put('topics/{id}', "TopicController@update"); // Update Topic
+Route::delete('topics/{id}', "TopicController@destroy"); // Delete Topic
+
+
+// Crypto
+Route::get('cryptos', "CryptoController@index"); // List cryptos
+Route::post('cryptos', "CryptoController@store"); // Create Crypto
+Route::get('cryptos/{id}', "CryptoController@show"); // Detail of Crypto
+Route::put('cryptos/{id}', "CryptoController@update"); // Update Crypto
+Route::delete('cryptos/{id}', "CryptoController@destroy"); // Delete Crypto
