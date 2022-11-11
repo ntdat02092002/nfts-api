@@ -15,11 +15,11 @@ return new class extends Migration
     {
         Schema::create('account_blances', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_user')->unsigned();
-            $table->foreign('id_user')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('id_crypto')->unsigned();
-            $table->foreign('id_crypto')->references('id')->on('cryptos')->onDelete('cascade');
-            $table->string('balance');
+            $table->bigInteger('user_id')->unsigned();
+            $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+            $table->bigInteger('crypto_id')->unsigned();
+            $table->foreign('crypto_id')->references('id')->on('cryptos')->onDelete('cascade');
+            $table->double('balance');
             $table->timestamps();
         });
     }

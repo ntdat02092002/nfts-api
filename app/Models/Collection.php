@@ -15,9 +15,9 @@ class Collection extends Model
 
     protected $fillable = [
     	'name',
-        'id_creator',
-        'id_owner',
-        'id_topic',
+        'creator_id',
+        'owner_id',
+        'topic_id',
         'reaction',
         'status'
     ];

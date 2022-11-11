@@ -17,11 +17,11 @@ return new class extends Migration
         Schema::create('nfts', function (Blueprint $table) {
             $table->id();
             $table->string('name');
-            $table->unsignedBigInteger('id_owner')->unsigned();
-            $table->foreign('id_owner')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('id_creator')->unsigned();
-            $table->foreign('id_creator')->references('id')->on('users')->onDelete('cascade');
-            $table->string('reaction');
+            $table->bigInteger('owner_id')->unsigned();
+            $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
+            $table->bigInteger('creator_id')->unsigned();
+            $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
+            $table->integer('reaction')->unsigned();
             $table->string('status');
             $table->timestamps();
         });

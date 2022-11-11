@@ -14,8 +14,8 @@ class AccountBlance extends Model
     protected $table = 'account_blances';
 
     protected $fillable = [
-    	'id_user',
-        'id_crypto',
+    	'user_id',
+        'crypto_id',
         'balance'
     ];
 }

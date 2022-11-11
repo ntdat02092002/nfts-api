@@ -18,16 +18,16 @@ return new class extends Migration
     {
         Schema::create('transactions', function (Blueprint $table) {
             $table->id();
-            $table->unsignedBigInteger('id_buyer')->unsigned();
-            $table->foreign('id_buyer')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('id_seller')->unsigned();
-            $table->foreign('id_seller')->references('id')->on('users')->onDelete('cascade');
-            $table->unsignedBigInteger('id_nft')->unsigned();
-            $table->foreign('id_nft')->references('id')->on('nfts')->onDelete('cascade');
+            $table->bigInteger('buyer_id')->unsigned();
+            $table->foreign('buyer_id')->references('id')->on('users')->onDelete('cascade');
+            $table->bigInteger('seller_id')->unsigned();
+            $table->foreign('seller_id')->references('id')->on('users')->onDelete('cascade');
+            $table->bigInteger('nft_id')->unsigned();
+            $table->foreign('nft_id')->references('id')->on('nfts')->onDelete('cascade');
             $table->string('date');
             $table->double('price');
-            $table->unsignedBigInteger('id_crypto')->unsigned();
-            $table->foreign('id_crypto')->references('id')->on('cryptos')->onDelete('cascade');
+            $table->bigInteger('crypto_id')->unsigned();
+            $table->foreign('crypto_id')->references('id')->on('cryptos')->onDelete('cascade');
             $table->timestamps();
         });
     }

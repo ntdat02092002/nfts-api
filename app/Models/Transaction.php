@@ -15,11 +15,10 @@ class Transaction extends Model
 
     protected $fillable = [
     	'name',
-        'id_buyer',
-        'id_seller',
-        'id_nft',
+        'buyer_id',
+        'seller_id',
+        'nft_id',
         'date',
-        'price',
-        'id_crypto'
+        'crypto_id'
     ];
 }

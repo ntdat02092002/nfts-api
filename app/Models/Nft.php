@@ -14,9 +14,10 @@ class Nft extends Model
 
     protected $fillable = [
     	'name', 
-        'id_owner',
-        'id_creator',
+        'owner_id',
+        'creator_id',
         'reaction',
-        'status'
+        'status',
+        'price'
     ];
 }
