@@ -21,4 +21,24 @@ class Collection extends Model
         'reaction',
         'status'
     ];
+
+    public function creator() 
+    {
+        return $this->belongsTo('App\Models\User', 'creator_id');
+    }
+
+    public function owner() 
+    {
+        return $this->belongsTo('App\Models\User', 'owner_id');
+    }
+
+    public function topic() 
+    {
+        return $this->belongsTo('App\Models\Topic', 'topic_id');
+    }
+
+    public function nfts()
+    {
+        return $this->hasMany('App\Models\Nft');
+    }
 }

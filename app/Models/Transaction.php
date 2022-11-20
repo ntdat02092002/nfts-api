@@ -21,4 +21,24 @@ class Transaction extends Model
         'date',
         'crypto_id'
     ];
+
+    public function crypto() 
+    {
+        return $this->belongsTo('App\Models\Crypto');
+    }
+
+    public function buyer() 
+    {
+        return $this->belongsTo('App\Models\User', 'buyer_id');
+    }
+
+    public function seller() 
+    {
+        return $this->belongsTo('App\Models\User', 'seller_id');
+    }
+
+    public function nft() 
+    {
+        return $this->belongsTo('App\Models\Nft', 'nft_id');
+    }
 }

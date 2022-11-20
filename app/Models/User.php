@@ -41,4 +41,29 @@ class User extends Authenticatable
     protected $casts = [
         'email_verified_at' => 'datetime',
     ];
+
+    public function accounts_balance()
+    {
+        return $this->hasMany('App\Models\AccountBalance');
+    }
+
+    public function nfts_onwed()
+    {
+        return $this->hasMany('App\Models\Nft', 'owner_id');
+    }
+
+    public function nfts_created()
+    {
+        return $this->hasMany('App\Models\Nft', 'creator_id');
+    }
+
+    public function collections_onwed()
+    {
+        return $this->hasMany('App\Models\Collection', 'owner_id');
+    }
+
+    public function collections_created()
+    {
+        return $this->hasMany('App\Models\Collection', 'creator_id');
+    }
 }

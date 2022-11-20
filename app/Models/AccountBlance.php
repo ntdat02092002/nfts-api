@@ -18,4 +18,14 @@ class AccountBlance extends Model
         'crypto_id',
         'balance'
     ];
+
+    public function user() 
+    {
+        return $this->belongsTo('App\Models\User');
+    }
+
+    public function crypto() 
+    {
+        return $this->belongsTo('App\Models\Crypto');
+    }
 }

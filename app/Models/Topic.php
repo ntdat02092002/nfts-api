@@ -16,4 +16,9 @@ class Topic extends Model
     protected $fillable = [
     	'name'
     ];
+
+    public function collections()
+    {
+        return $this->hasMany('App\Models\Collecton');
+    }
 }

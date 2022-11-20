@@ -16,8 +16,29 @@ class Nft extends Model
     	'name', 
         'owner_id',
         'creator_id',
+        'collection_id',
         'reaction',
         'status',
         'price'
     ];
+
+    public function owner()
+    {
+        return $this->belongsTo('App\Models\User', 'owner_id');
+    }
+
+    public function creator()
+    {
+        return $this->belongsTo('App\Models\User', 'creator_id');
+    }
+
+    public function collection()
+    {
+        return $this->belongsTo('App\Models\Collection', 'collection_id');
+    }
+
+    public function transactions()
+    {
+        return $this->hasMany('App\Models\Transaction');
+    }
 }
