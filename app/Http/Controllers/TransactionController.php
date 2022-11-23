@@ -13,7 +13,11 @@ class TransactionController extends Controller
      */
     public function index()
     {
-        //
+        // Return Json Response
+        $transactions = Transaction::all();
+        return response()->json([
+            'transactions' => $transactions
+        ],200);
     }
 
     /**
@@ -34,7 +38,28 @@ class TransactionController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            // Create Post
+            $transaction = Transaction::create([
+                'name' => $request->name,
+                'buyer_id' => $request->buyer_id,
+                'seller_id' => $request->seller_id,
+                'nft_id' => $request->nft_id,
+                'date' => $request->date,
+                'crypto_id' => $request->crypto_id
+            ]);
+    
+            // Return Json Response
+            return response()->json([
+                'message' => "Transaction successfully created.",
+                'transaction' => $transaction
+            ],200);
+        } catch (\Exception $e) {
+            // Return Json Response
+            return response()->json([
+                'message' => "Something went really wrong!"
+            ],500);
+        }
     }
 
     /**
@@ -45,7 +70,18 @@ class TransactionController extends Controller
      */
     public function show($id)
     {
-        //
+        // Post Detail 
+        $transaction = Transaction::find($id);
+        if(!$transaction){
+             return response()->json([
+                'message'=>'Transaction Not Found.'
+            ],404);
+        }
+
+        // Return Json Response
+        return response()->json([
+            'transaction' => $transaction
+        ],200);
     }
 
     /**
@@ -68,7 +104,36 @@ class TransactionController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            // Find Transactions
+            $transaction = Transaction::find($id);
+            if(!$transaction){
+              return response()->json([
+                'message'=>'Transaction Not Found.'
+              ],404);
+            }
+    
+            $transaction->name = $request->name;
+            $transaction->buyer_id = $request->buyer_id;
+            $transaction->seller_id = $request->seller_id;
+            $transaction->nft_id = $request->nft_id;
+            $transaction->date = $request->date;
+            $transaction->crypto_id = $request->crypto_id;
+
+            // Update Transaction
+            $transaction->save();
+    
+            // Return Json Response
+            return response()->json([
+                'message' => "Transaction successfully updated.",
+                'transaction' => $transaction
+            ],200);
+        } catch (\Exception $e) {
+            // Return Json Response
+            return response()->json([
+                'message' => "Something went really wrong!",
+            ],500);
+        }
     }
 
     /**
@@ -79,6 +144,20 @@ class TransactionController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Transaction Detail 
+        $transaction = Transaction::find($id);
+        if(!$transaction){
+            return response()->json([
+                'message'=>'Transaction Not Found.'
+            ],404);
+        }
+
+        // Delete Post
+        $transaction->delete();
+
+        // Return Json Response
+        return response()->json([
+            'message' => "Transaction successfully deleted."
+        ],200);
     }
 }

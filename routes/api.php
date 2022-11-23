@@ -50,10 +50,37 @@ Route::get('topics/{id}', "TopicController@show"); // Detail of Topic
 Route::put('topics/{id}', "TopicController@update"); // Update Topic
 Route::delete('topics/{id}', "TopicController@destroy"); // Delete Topic
 
-
 // Crypto
 Route::get('cryptos', "CryptoController@index"); // List cryptos
 Route::post('cryptos', "CryptoController@store"); // Create Crypto
 Route::get('cryptos/{id}', "CryptoController@show"); // Detail of Crypto
 Route::put('cryptos/{id}', "CryptoController@update"); // Update Crypto
 Route::delete('cryptos/{id}', "CryptoController@destroy"); // Delete Crypto
+
+// Transaction
+Route::get('transactions', "TransactionController@index"); // List transactions
+Route::post('transactions', "TransactionController@store"); // Create transaction
+Route::get('transactions/{id}', "TransactionController@show"); // Detail of transaction
+Route::put('transactions/{id}', "TransactionController@update"); // Update transaction
+Route::delete('transactions/{id}', "TransactionController@destroy"); // Delete transaction
+
+// NFT
+Route::get('nfts', "NFTController@index"); // List nfts
+Route::post('nfts', "NFTController@store"); // Create nft
+Route::get('nfts/{id}', "NFTController@show"); // Detail of nft
+Route::put('nfts/{id}', "NFTController@update"); // Update nft
+Route::delete('nfts/{id}', "NFTController@destroy"); // Delete nft
+
+// Collection
+Route::get('collections', "CollectionController@index"); // List collections
+Route::post('collections', "CollectionController@store"); // Create collection
+Route::get('collections/{id}', "CollectionController@show"); // Detail of collection
+Route::put('collections/{id}', "CollectionController@update"); // Update collection
+Route::delete('collections/{id}', "CollectionController@destroy"); // Delete collection
+
+// Account Blance
+Route::get('account_blances', "AccountBalanceController@index"); // List account_blances
+Route::post('account_blances', "AccountBalanceController@store"); // Create account_blance
+Route::get('account_blances/{id}', "AccountBalanceController@show"); // Detail of account_blance
+Route::put('account_blances/{id}', "AccountBalanceController@update"); // Update account_blance
+Route::delete('account_blances/{id}', "AccountBalanceController@destroy"); // Delete account_blance

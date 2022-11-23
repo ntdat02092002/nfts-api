@@ -14,11 +14,12 @@ class Topic extends Model
     protected $table = 'topics';
 
     protected $fillable = [
-    	'name'
+    	'name',
+        'image_url'
     ];
 
     public function collections()
     {
-        return $this->hasMany('App\Models\Collecton');
+        return $this->hasMany('App\Models\Collection');
     }
 }

@@ -46,8 +46,8 @@ class TopicRequest extends FormRequest
     {
         if(request() ->isMethod('post')) {
             return [
-                'name.required' => 'Name is required!',
-                'image.required' => 'Image is required!'
+                'name.required' => 'Nhập tên đi đã :D',
+                'image.required' => 'Ảnh chưa được chọn'
             ];
         }
         else {

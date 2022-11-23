@@ -46,11 +46,8 @@ class TopicController extends Controller
             // Create Topic
             Topic::create([
                 'name' => $request->name,
-                'image' => $imageName
+                'image_url' => $request->image_url
             ]);
-    
-            // Save Image in Storage folder
-            Storage::disk('public')->put($imageName, file_get_contents($request->image));
     
             // Return Json Response
             return response()->json([
@@ -115,22 +112,23 @@ class TopicController extends Controller
             }
     
             $topic->name = $request->name;
+            $topic->image_url = $request->image_url;
     
-            if($request->image) {
-                // Public storage
-                $storage = Storage::disk('public');
+            // if($request->image_url) {
+            //     // Public storage
+            //     $storage = Storage::disk('public');
     
-                // Old iamge delete
-                if($storage->exists($topic->image))
-                    $storage->delete($topic->image);
+            //     // Old iamge delete
+            //     if($storage->exists($topic->image))
+            //         $storage->delete($topic->image);
     
-                // Image name
-                $imageName = Str::random(32).".".$request->image->getClientOriginalExtension();
-                $topic->image = $imageName;
+            //     // Image name
+            //     $imageName = Str::random(32).".".$request->image->getClientOriginalExtension();
+            //     $topic->image = $imageName;
     
-                // Image save in public folder
-                $storage->put($imageName, file_get_contents($request->image));
-            }
+            //     // Image save in public folder
+            //     $storage->put($imageName, file_get_contents($request->image));
+            // }
     
             // Update Post
             $topic->save();
@@ -167,8 +165,8 @@ class TopicController extends Controller
         $storage = Storage::disk('public');
 
         // Iamge delete
-        if($storage->exists($topic->image))
-            $storage->delete($topic->image);
+        // if($storage->exists($topic->image))
+        //     $storage->delete($topic->image);
 
         // Delete Post
         $topic->delete();

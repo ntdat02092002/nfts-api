@@ -14,7 +14,11 @@ class AccountBalanceController extends Controller
      */
     public function index()
     {
-        //
+        // read all AccountBlance
+        $accountBlances = AccountBlance::all();
+        return response()->json([
+            'accountBlances' => $accountBlances
+         ],200);
     }
 
     /**
@@ -35,7 +39,25 @@ class AccountBalanceController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            // Create AccountBlance
+            $accountBlance = AccountBlance::create([
+                'name' => $request->name,
+                'crypto_id' => $request->crypto_id,
+                'balance' => $request->balance
+            ]);
+    
+            // Return Json Response
+            return response()->json([
+                'message' => "Account Blance successfully created.",
+                'accountBlance' => $accountBlance
+            ],200);
+        } catch (\Exception $e) {
+            // Return Json Response
+            return response()->json([
+                'message' => "Something went really wrong!"
+            ],500);
+        }
     }
 
     /**
@@ -46,7 +68,18 @@ class AccountBalanceController extends Controller
      */
     public function show($id)
     {
-        //
+        // AccountBlance Detail 
+        $accountBlance = AccountBlance::find($id);
+        if(!$accountBlance){
+             return response()->json([
+                'message'=>'Account Blance Not Found.'
+            ],404);
+        }
+
+        // Return Json Response
+        return response()->json([
+            'accountBlance' => $accountBlance
+        ],200);
     }
 
     /**
@@ -69,7 +102,33 @@ class AccountBalanceController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            // Find Post
+            $accountBlance = AccountBlance::find($id);
+            if(!$accountBlance){
+              return response()->json([
+                'message'=>'Account Blance Not Found.'
+              ],404);
+            }
+    
+            $accountBlance->name = $request->name;
+            $accountBlance->crypto_id = $request->crypto_id;
+            $accountBlance->balance = $request->balance;
+
+            // Update AccountBlance
+            $accountBlance->save();
+    
+            // Return Json Response
+            return response()->json([
+                'message' => "Account Blance successfully updated.",
+                'accountBlance' => $AccountBlance
+            ],200);
+        } catch (\Exception $e) {
+            // Return Json Response
+            return response()->json([
+                'message' => "Something went really wrong!",
+            ],500);
+        }
     }
 
     /**
@@ -80,6 +139,20 @@ class AccountBalanceController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Post Detail 
+        $accountBlance = AccountBlance::find($id);
+        if(!$accountBlance){
+            return response()->json([
+                'message'=>'Account Blance Not Found.'
+            ],404);
+        }
+
+        // Delete Post
+        $accountBlance->delete();
+
+        // Return Json Response
+        return response()->json([
+            'message' => "Account Blance successfully deleted."
+        ],200);
     }
 }

@@ -13,7 +13,11 @@ class CryptoController extends Controller
      */
     public function index()
     {
-        //
+        // read all crypto
+        $cryptos = Crypto::all();
+        return response()->json([
+            'cryptos' => $cryptos
+         ],200);
     }
 
     /**
@@ -34,7 +38,23 @@ class CryptoController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            // Create Crypto
+            $crypto = Crypto::create([
+                'name' => $request->name
+            ]);
+    
+            // Return Json Response
+            return response()->json([
+                'message' => "Crypto successfully created.",
+                'crypto' => $crypto
+            ],200);
+        } catch (\Exception $e) {
+            // Return Json Response
+            return response()->json([
+                'message' => "Something went really wrong!"
+            ],500);
+        }
     }
 
     /**
@@ -45,7 +65,18 @@ class CryptoController extends Controller
      */
     public function show($id)
     {
-        //
+        // Crypto Detail 
+        $crypto = Crypto::find($id);
+        if(!$crypto){
+             return response()->json([
+                'message'=>'Crypto Not Found.'
+            ],404);
+        }
+
+        // Return Json Response
+        return response()->json([
+            'crypto' => $crypto
+        ],200);
     }
 
     /**
@@ -68,7 +99,31 @@ class CryptoController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            // Find Crypto
+            $crypto = Crypto::find($id);
+            if(!$crypto){
+              return response()->json([
+                'message'=>'Crypto Not Found.'
+              ],404);
+            }
+    
+            $crypto->name = $request->name;
+
+            // Update Crypto
+            $crypto->save();
+    
+            // Return Json Response
+            return response()->json([
+                'message' => "Crypto successfully updated.",
+                'crypto' => $crypto
+            ],200);
+        } catch (\Exception $e) {
+            // Return Json Response
+            return response()->json([
+                'message' => "Something went really wrong!",
+            ],500);
+        }
     }
 
     /**
@@ -79,6 +134,20 @@ class CryptoController extends Controller
      */
     public function destroy($id)
     {
-        //
+        // Crypto Detail 
+        $crypto = Crypto::find($id);
+        if(!$crypto){
+            return response()->json([
+                'message'=>'Crypto Not Found.'
+            ],404);
+        }
+
+        // Delete Post
+        $crypto->delete();
+
+        // Return Json Response
+        return response()->json([
+            'message' => "Crypto successfully deleted."
+        ],200);
     }
 }
