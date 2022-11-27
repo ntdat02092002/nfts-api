@@ -23,5 +23,12 @@ class DatabaseSeeder extends Seeder
         $this->call([
             PostTableSeeder::class,
         ]);
+
+        $this->call([
+            TopicSeeder::class,
+        ]);
+        $this->call([
+            CryptoSeeder::class,
+        ]);
     }
 }
