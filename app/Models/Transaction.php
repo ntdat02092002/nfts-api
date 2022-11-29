@@ -19,7 +19,8 @@ class Transaction extends Model
         'seller_id',
         'nft_id',
         'date',
-        'crypto_id'
+        'crypto_id',
+        'price'
     ];
 
     public function crypto() 

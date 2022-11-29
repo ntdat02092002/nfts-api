@@ -47,7 +47,8 @@ class CollectionController extends Controller
                 'owner_id' => $request->owner_id,
                 'topic_id' => $request->topic_id,
                 'reaction' => $request->reaction,
-                'status' => $request->status
+                'status' => $request->status,
+                'price' => $request->price
             ]);
     
             // Return Json Response
@@ -119,6 +120,7 @@ class CollectionController extends Controller
             $collection->topic_id = $request->topic_id;
             $collection->reaction = $request->reaction;
             $collection->status = $request->status;
+            $collection->price = $request->price;
 
             // Update Post
             $collection->save();
