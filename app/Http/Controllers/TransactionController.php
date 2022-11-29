@@ -46,7 +46,8 @@ class TransactionController extends Controller
                 'seller_id' => $request->seller_id,
                 'nft_id' => $request->nft_id,
                 'date' => $request->date,
-                'crypto_id' => $request->crypto_id
+                'crypto_id' => $request->crypto_id,
+                'price' => $request->price
             ]);
     
             // Return Json Response
@@ -119,6 +120,7 @@ class TransactionController extends Controller
             $transaction->nft_id = $request->nft_id;
             $transaction->date = $request->date;
             $transaction->crypto_id = $request->crypto_id;
+            $transaction->price = $request->price;
 
             // Update Transaction
             $transaction->save();
