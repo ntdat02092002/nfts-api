@@ -80,6 +80,18 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::get('account_blances/{id}', "AccountBalanceController@show"); // Detail of account_blance
         Route::put('account_blances/{id}', "AccountBalanceController@update"); // Update account_blance
         Route::delete('account_blances/{id}', "AccountBalanceController@destroy"); // Delete account_blance
+
+        Route::get('/admin', function (Request $request) {
+            return response()->json([
+                'message' => "you are admin."
+            ],200);
+        })->middleware('api.admin');
+
+        Route::get('/super_admin', function (Request $request) {
+            return response()->json([
+                'message' => "you are super admin."
+            ],200);
+        })->middleware('api.superAdmin');
     });
 });
 
