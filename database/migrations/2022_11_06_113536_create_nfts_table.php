@@ -17,7 +17,7 @@ return new class extends Migration
         Schema::create('nfts', function (Blueprint $table) {
             $table->id();
             $table->string('description');
-            $table->string('crypto_id')->references('id')->on('cryptos')->onDelete('cascade');
+            $table->bigInteger('crypto_id')->references('id')->on('cryptos')->onDelete('cascade');
             $table->string('url_image_nft');
             $table->string('name');
             $table->bigInteger('owner_id')->unsigned();
