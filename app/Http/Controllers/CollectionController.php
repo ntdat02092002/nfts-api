@@ -43,6 +43,8 @@ class CollectionController extends Controller
             // Create Post
             $collection = Collection::create([
                 'name' => $request->name,
+                'url_image_logo' => $request->url_image_logo,
+                'url_image_banner' => $request->url_image_banner,
                 'creator_id' => $request->creator_id,
                 'owner_id' => $request->owner_id,
                 'topic_id' => $request->topic_id,
@@ -116,6 +118,8 @@ class CollectionController extends Controller
             }
     
             $collection->name = $request->name;
+            $collection->url_image_logo = $request->url_image_logo;
+            $collection->url_image_banner = $request->url_image_banner;
             $collection->owner_id = $request->owner_id;
             $collection->topic_id = $request->topic_id;
             $collection->reaction = $request->reaction;

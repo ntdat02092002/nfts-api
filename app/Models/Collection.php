@@ -15,6 +15,8 @@ class Collection extends Model
 
     protected $fillable = [
     	'name',
+        'url_image_logo',
+        'url_image_banner',
         'creator_id',
         'owner_id',
         'topic_id',
