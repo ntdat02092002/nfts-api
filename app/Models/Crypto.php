@@ -15,4 +15,9 @@ class Crypto extends Model
     protected $fillable = [
     	'name'
     ];
+
+    public function crypto_nft()
+    {
+        return $this->hasMany('App\Models\Nft', 'crypto_id');
+    }
 }

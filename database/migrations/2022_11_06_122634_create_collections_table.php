@@ -16,6 +16,8 @@ return new class extends Migration
     {
         Schema::create('collections', function (Blueprint $table) {
             $table->id();
+            $table->string('url_image_logo');
+            $table->string('url_image_banner');
             $table->string('name');
             $table->bigInteger('creator_id')->unsigned();
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');

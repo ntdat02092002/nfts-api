@@ -14,6 +14,9 @@ class Nft extends Model
 
     protected $fillable = [
     	'name', 
+        'description',
+        'crypto_id',
+        'url_image_nft',
         'owner_id',
         'creator_id',
         'collection_id',
@@ -30,6 +33,11 @@ class Nft extends Model
     public function creator()
     {
         return $this->belongsTo('App\Models\User', 'creator_id');
+    }
+
+    public function crypto()
+    {
+        return $this->belongsTo('App\Models\Crypto', 'crypto_id');
     }
 
     public function collection()

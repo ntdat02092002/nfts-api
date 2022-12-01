@@ -62,6 +62,9 @@ class NFTController extends Controller
             // Create NFT
             $nft = Nft::create([
                 'name' => $request->name,
+                'crypto_id' => $request->crypto_id,
+                'description' => $request->description,
+                'url_image_nft' => $request->url_image_nft,
                 'owner_id' => $request->owner_id,
                 'creator_id' => $request->creator_id,
                 'collection_id' => $request->collection_id,
@@ -135,6 +138,9 @@ class NFTController extends Controller
             }
     
             $nft->name = $request->name;
+            $nft->crypto_id = $request->crypto_id;
+            $nft->description = $request->description;
+            $nft->url_image_nft = $request->url_image_nft;
             $nft->owner_id = $request->owner_id;
             $nft->creator_id = $request->creator_id;
             $nft->collection_id = $request->collection_id;
