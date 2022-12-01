@@ -81,6 +81,10 @@ class TransactionController extends Controller
                 'crypto_id' => $request->crypto_id
             ]);
 
+            return response()->json([
+                'message' => "Transaction successfully created.",
+            ],200);
+
         } catch (\Exception $e) {
             // Return Json Response
             return response()->json([
