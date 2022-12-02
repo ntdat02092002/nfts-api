@@ -31,4 +31,18 @@ class NftFilter extends QueryFilter
         }
         return $this->builder;
     }
+
+    public function filterCollectionName($name)
+    {
+        return $this->builder->whereHas('collection', fn ($query) => 
+            $query->where('name', 'like', '%'. $name. '%')
+        );
+    }
+
+    public function filterTopicName($name)
+    {
+        return $this->builder->whereHas('collection.topic', fn ($query) => 
+            $query->where('name', 'like', '%'. $name. '%')
+        );
+    }
 }
