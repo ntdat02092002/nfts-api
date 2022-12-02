@@ -69,9 +69,9 @@ class TransactionController extends Controller
                 // Cập nhật id người sở hữu nft và giá của nft sau khi bán
                 DB::table("nfts")
                     ->where("user_id",$request->nft_id)
-                    ->update([["owner_id" => $request->buyer_id],
-                                ["price" => $request->price]
-                            ]);
+                    ->update(["owner_id" => $request->buyer_id,
+                                "price" => $request->price]
+                            );
             }
 
             // Create Transaction
