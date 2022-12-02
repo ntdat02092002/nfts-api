@@ -21,8 +21,7 @@ class Collection extends Model
         'owner_id',
         'topic_id',
         'reaction',
-        'status',
-        'price'
+        'status'
     ];
 
     public function creator() 
