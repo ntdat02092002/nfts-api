@@ -24,8 +24,10 @@ return new class extends Migration
             $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
             $table->bigInteger('creator_id')->unsigned();
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
+            $table->string('collection_id')->references('id')->on('collections')->onDelete('cascade');
             $table->integer('reaction')->unsigned();
             $table->string('status');
+            $table->integer('price')->unsigned();
             $table->timestamps();
         });
     }

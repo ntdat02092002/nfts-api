@@ -27,6 +27,7 @@ return new class extends Migration
             $table->foreign('topic_id')->references('id')->on('topics')->onDelete('cascade');
             $table->integer('reaction')->unsigned();;
             $table->string('status');
+            $table->integer('price')->unsigned();
             $table->timestamps();
         });
     }

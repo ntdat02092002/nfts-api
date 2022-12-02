@@ -40,9 +40,7 @@ class TopicController extends Controller
      */
     public function store(Request $request)
     {
-        try {
-            $imageName = Str::random(32).".".$request->image->getClientOriginalExtension();
-    
+        try {   
             // Create Topic
             Topic::create([
                 'name' => $request->name,
