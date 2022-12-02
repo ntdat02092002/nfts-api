@@ -17,17 +17,24 @@ return new class extends Migration
         Schema::create('nfts', function (Blueprint $table) {
             $table->id();
             $table->string('description');
-            $table->string('crypto_id')->references('id')->on('cryptos')->onDelete('cascade');
             $table->string('url_image_nft');
             $table->string('name');
+            $table->integer('reaction')->default("100");
+            $table->integer('price')->default(0);
+            $table->string('status')->default("Chưa bán");
+
+            $table->bigInteger('crypto_id')->unsigned();
+            $table->foreign('crypto_id')->references('id')->on('cryptos')->onDelete('cascade');
+
             $table->bigInteger('owner_id')->unsigned();
             $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
+
             $table->bigInteger('creator_id')->unsigned();
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('collection_id')->references('id')->on('collections')->onDelete('cascade');
-            $table->integer('reaction')->unsigned();
-            $table->string('status');
-            $table->integer('price')->unsigned();
+            
+            $table->bigInteger('collection_id')->unsigned();
+            $table->foreign('collection_id')->references('id')->on('collections')->onDelete('cascade');
+
             $table->timestamps();
         });
     }

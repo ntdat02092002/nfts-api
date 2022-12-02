@@ -44,9 +44,8 @@ class TransactionController extends Controller
             // Xử lí trước khi tạo một giao dịch mới
             $buyer_id = $request->buyer_id;
 
-            $balance_buyer = DB::select("select account_blances.balance 
-                from account_blances
-                where account_blances.user_id=?",[$request->buyer_id]);
+            $balance_buyer = DB::table("account_blances")
+                ->where('id',$buyer_id)->value('balance');
             if($balance_buyer < $request->price) {
                 return response()->json([
                     'message' => "Số dư tài khoản của bạn không đủ để thực hiện giao dịch này! 
@@ -55,20 +54,24 @@ class TransactionController extends Controller
             }
             else {
                 // Cập nhật số dư của ngươi mua
-                DB::update("UPDATE account_blances SET account_blances.balance=?
-                    WHERE account_blances.user_id=?",[$balance_buyer - $request->price,$request->buyer_id]);
+                DB::table("account_blances")
+                    ->where('user_id',$request->buyer_id)
+                    ->update(["balance" => ($balance_buyer - $request->price)]);
 
                 // Cập nhật số dư của ngươi bán
-                $balance_seller = DB::select("SELECT account_blances.balance
-                from account_blances
-                where account_blances.user_id=?",[$request->seller_id]
-                );
-                DB::update("UPDATE account_blances SET account_blances.balance=?
-                    WHERE account_blances.user_id=?",[$balance_seller + $request->price,$request->seller_id]);
+                $balance_seller = DB::table("account_blances")
+                    ->where("user_id",$request->seller_id)->value('balance');
+
+                DB::table("account_blances")
+                    ->where("user_id",$request->seller_id)
+                    ->update(["balance" => ($balance_seller + $request->price)]);
                 
                 // Cập nhật id người sở hữu nft và giá của nft sau khi bán
-                DB::update("UPDATE nfts SET nfts.owner_id=? , nfts.price=?
-                    WHERE nfts.user_id=?",[$request->buyer_id,$request->price,$request->nft_id]);
+                DB::table("nfts")
+                    ->where("user_id",$request->nft_id)
+                    ->update([["owner_id" => $request->buyer_id],
+                                ["price" => $request->price]
+                            ]);
             }
 
             // Create Transaction
