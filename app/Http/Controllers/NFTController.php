@@ -33,7 +33,7 @@ class NFTController extends Controller
 
         // Return Json Response
         return response()->json([
-            'nfts' => $Nft,
+            'nfts' => $nfts,
             'page' => $page,
             'currentPage' => $currentPage,
             'total' => $total
