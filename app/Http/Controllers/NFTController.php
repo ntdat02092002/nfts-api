@@ -12,7 +12,7 @@ class NFTController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $orderField = $request->orderBy ? $request->orderBy : 'id';
         $order = $request->order ? $request->order : 'asc';
@@ -33,7 +33,7 @@ class NFTController extends Controller
 
         // Return Json Response
         return response()->json([
-            'nfts' => $Nft,
+            'nfts' => $nfts,
             'page' => $page,
             'currentPage' => $currentPage,
             'total' => $total
@@ -81,7 +81,8 @@ class NFTController extends Controller
         } catch (\Exception $e) {
             // Return Json Response
             return response()->json([
-                'message' => "Something went really wrong!"
+                'message' => "Something went really wrong!",
+                'e' =>$e
             ],500);
         }
     }
