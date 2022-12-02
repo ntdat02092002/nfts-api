@@ -25,8 +25,8 @@ return new class extends Migration
             $table->foreign('owner_id')->references('id')->on('users')->onDelete('cascade');
             $table->bigInteger('topic_id')->unsigned();
             $table->foreign('topic_id')->references('id')->on('topics')->onDelete('cascade');
-            $table->integer('reaction')->unsigned();;
-            $table->string('status');
+            $table->integer('reaction')->default(100);
+            $table->string('status')->default("Nothing");
             $table->timestamps();
         });
     }

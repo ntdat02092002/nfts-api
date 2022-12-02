@@ -24,7 +24,7 @@ return new class extends Migration
             $table->foreign('seller_id')->references('id')->on('users')->onDelete('cascade');
             $table->bigInteger('nft_id')->unsigned();
             $table->foreign('nft_id')->references('id')->on('nfts')->onDelete('cascade');
-            $table->string('date');
+            $table->timestamp('date')->useCurrent();
             $table->double('price');
             $table->bigInteger('crypto_id')->unsigned();
             $table->foreign('crypto_id')->references('id')->on('cryptos')->onDelete('cascade');
