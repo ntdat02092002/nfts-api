@@ -11,17 +11,17 @@ class NftFilter extends QueryFilter
     
     public function filterName($name)
     {
-        return $this->builder->where('name', 'like', '%' . $name . '%');
+        return $this->builder->where('nfts.name', 'like', '%' . $name . '%');
     }
 
     public function filterPrice($price)
     {
-        return $this->builder->where('price', 'like', '%' . $price . '%');
+        return $this->builder->where('nfts.price', 'like', '%' . $price . '%');
     }
 
     public function filterStatus($price)
     {
-        return $this->builder->where('status', 'like', '%' . $status . '%');
+        return $this->builder->where('nfts.status', 'like', '%' . $status . '%');
     }
 
     public function filterIncludeCollection($include=0)
@@ -34,15 +34,18 @@ class NftFilter extends QueryFilter
 
     public function filterCollectionName($name)
     {
-        return $this->builder->whereHas('collection', fn ($query) => 
-            $query->where('name', 'like', '%'. $name. '%')
-        );
+        return $this->builder
+            ->join('collections', 'collections.id', '=', 'nfts.collection_id') 
+            ->where('collections.name', 'like', '%'. $name. '%')
+            ->select('nfts.*');
     }
 
     public function filterTopicName($name)
     {
-        return $this->builder->whereHas('collection.topic', fn ($query) => 
-            $query->where('name', 'like', '%'. $name. '%')
-        );
+        return $this->builder
+            ->join('collections as collection_of_topic', 'collection_of_topic.id', '=', 'nfts.collection_id') 
+            ->join('topics', 'topics.id', '=', 'collection_of_topic.topic_id')
+            ->where('topics.name', 'like', '%'. $name. '%')
+            ->select('nfts.*');
     }
 }
