@@ -30,7 +30,7 @@ class NftFilter extends QueryFilter
 
     public function filterReaction($reaction)
     {
-        return $this->builder->where('reaction', $reaction);
+        return $this->builder->where('reaction','>=', $reaction);
     }
 
     public function filterIncludeCollection($include=0)
