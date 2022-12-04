@@ -14,7 +14,7 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $orderField = $request->orderBy ? $request->orderBy : 'id';
         $order = $request->order ? $request->order : 'asc';
@@ -27,7 +27,7 @@ class TransactionController extends Controller
             ->orderBy($orderField, $order);
         $total = $transactions->count();
 
-        $transactions= $transactions
+        $transactions = $transactions
             ->offset($offset)
             ->limit($limit)
             ->get();

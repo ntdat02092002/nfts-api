@@ -10,40 +10,46 @@ use Illuminate\Support\Facades\DB;
 class TransactionFilter extends QueryFilter
 {
     protected $filterable = [
-        'cur_date', 'date_start', 'date_end', 'name_nft' ,'price'
+        'date', 'dateStart', 'dateEnd', 'nameNft' ,'price'
     ];
     
 
     // Find transaction in current date
-    public function filterCurDate($cur_date)
+    public function filterDate($date)
     {
-        return $this->builder->whereDate('create_at', $cur_date);
+        return $this->builder->whereDate('created_at', $date);
     }
 
-    public function filterWithinDate($date_start, $date_end)
+    public function filterDateStart($dateStart)
     {
-        return $this->builder
-            ->select('transactions.*')
-            ->whereDate('transactions.create_at' ,'>=',$date_start)
-            ->whereDate('transactions.create_at' ,'<=',$date_end);
+        return $this->builder->whereDate('created_at', $dateStart);
+    }
+
+    public function filterDateEnd($dateEnd)
+    {
+        return $this->builder->whereDate('created_at', $dateEnd);
     }
     
-    public function filterNameNft($name_nft)
+    public function filterNameNft($nameNft)
     {
         return $this->builder
-            ->join('nfts', 'nfts.id','=','transactions.nft_id')
-            ->select('transaction.*')
-            ->where('nfts.name', 'like','%'.$name_nft.'%');
-
+            ->join('nfts','nfts.id', '=','transactions.nft_id')
+            ->where('nfts.name','like','%'.$nameNft.'%')
+            ->select('transactions.*');
     }
 
     // Tìm transaction theo giá giao dịch
     public function filterPriceTransaction($price)
     {
+        $min = ((int)$price)-(((int)$price)/10);
+        $max = ((int)$price)+(((int)$price)/10);
         return $this->builder
-            ->select('transaction.*')
-            ->where('transaction.price', 'like','%'.$price.'%');
-
+            ->select('transactions.*')
+            ->orwhere(function (Builder $query) {
+                return $query->where('price', '>=',$min)
+                             ->where('price', '<=',$max);
+            })
+            ->where('transactions.price', '=', $price);
     }
 
 }
