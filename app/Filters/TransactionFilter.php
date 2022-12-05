@@ -22,24 +22,24 @@ class TransactionFilter extends QueryFilter
 
     public function filterDateStart($dateStart)
     {
-        return $this->builder->whereDate('created_at', $dateStart);
+        return $this->builder->whereDate('created_at', '>=', $dateStart);
     }
 
     public function filterDateEnd($dateEnd)
     {
-        return $this->builder->whereDate('created_at', $dateEnd);
+        return $this->builder->whereDate('created_at', '<=', $dateEnd);
     }
     
-    public function filterNameNft($nameNft)
+    public function filterNftName($nftName)
     {
         return $this->builder
             ->join('nfts','nfts.id', '=','transactions.nft_id')
-            ->where('nfts.name','like','%'.$nameNft.'%')
+            ->where('nfts.name','like','%'.$nftName.'%')
             ->select('transactions.*');
     }
 
     // Tìm transaction theo giá giao dịch
-    public function filterPriceTransaction($price)
+    public function filterPrice($price)
     {
         $min = ((int)$price)-(((int)$price)/10);
         $max = ((int)$price)+(((int)$price)/10);
