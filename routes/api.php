@@ -95,3 +95,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     });
 });
 
+
+// Route::get('transactions', "TransactionController@index");
+// Route::get('topics', "TopicController@index");
+// Route::get('nfts', "NFTController@index");

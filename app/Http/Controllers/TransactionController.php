@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
 use Illuminate\Support\Facades\DB;
+use App\Filters\TransactionFilter;
 
 class TransactionController extends Controller
 {
@@ -13,12 +14,31 @@ class TransactionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
+        $orderField = $request->orderBy ? $request->orderBy : 'id';
+        $order = $request->order ? $request->order : 'asc';
+        $limit = $request->limit ? $request->limit : 20;
+        $page = $request->page && $request->page > 0 ? $request->page : 1;
+        $offset = ($page - 1) * $limit;
+
+        $TransactionFilter = new TransactionFilter($request);
+        $transactions = Transaction::filter($TransactionFilter)
+            ->orderBy($orderField, $order);
+        $total = $transactions->count();
+
+        $transactions = $transactions
+            ->offset($offset)
+            ->limit($limit)
+            ->get();
+        $currentPage = $transactions->count();
+
         // Return Json Response
-        $transactions = Transaction::all();
         return response()->json([
-            'transactions' => $transactions
+            'transactions' => $transactions,
+            'page' => $page,
+            'currentPage' => $currentPage,
+            'total' => $total
         ],200);
     }
 
@@ -69,9 +89,9 @@ class TransactionController extends Controller
                 // Cập nhật id người sở hữu nft và giá của nft sau khi bán
                 DB::table("nfts")
                     ->where("user_id",$request->nft_id)
-                    ->update([["owner_id" => $request->buyer_id],
-                                ["price" => $request->price]
-                            ]);
+                    ->update(["owner_id" => $request->buyer_id,
+                                "price" => $request->price]
+                            );
             }
 
             // Create Transaction
