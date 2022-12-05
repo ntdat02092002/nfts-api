@@ -22,12 +22,12 @@ class TransactionFilter extends QueryFilter
 
     public function filterDateStart($dateStart)
     {
-        return $this->builder->whereDate('created_at', $dateStart);
+        return $this->builder->whereDate('created_at','>=', $dateStart);
     }
 
     public function filterDateEnd($dateEnd)
     {
-        return $this->builder->whereDate('created_at', $dateEnd);
+        return $this->builder->whereDate('created_at','<=', $dateEnd);
     }
     
     public function filterNameNft($nameNft)
