@@ -4,7 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Topic;
-// use App\Filters\;
+use App\Filters\TopicFilter;
 
 class TopicController extends Controller
 {
@@ -13,13 +13,32 @@ class TopicController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // read all topic
-        $topics = Topic::all();
+        $orderField = $request->orderBy ? $request->orderBy : 'id';
+        $order = $request->order ? $request->order : 'asc';
+        $limit = $request->limit ? $request->limit : 20;
+        $page = $request->page && $request->page > 0 ? $request->page : 1;
+        $offset = ($page - 1) * $limit;
+
+        $TopicFilter = new TopicFilter($request);
+        $topics = Topic::filter($TopicFilter)
+            ->orderBy($orderField, $order);
+        $total = $topics->count();
+
+        $topics = $topics
+            ->offset($offset)
+            ->limit($limit)
+            ->get();
+        $currentPage = $topics->count();
+
+        // Return Json Response
         return response()->json([
-            'topics' => $topics
-         ],200);
+            'topics' => $topics,
+            'page' => $page,
+            'currentPage' => $currentPage,
+            'total' => $total
+        ],200);
     }
 
     /**

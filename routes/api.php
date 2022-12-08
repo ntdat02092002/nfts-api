@@ -40,7 +40,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::delete('posts/{id}', "PostController@destroy"); // Delete Post
 
         // Topic
-        Route::get('topics', "TopicController@index"); // List topics
+        // Route::get('topics', "TopicController@index"); // List topics
         Route::post('topics', "TopicController@store"); // Create Topic
         Route::get('topics/{id}', "TopicController@show"); // Detail of Topic
         Route::put('topics/{id}', "TopicController@update"); // Update Topic
@@ -95,7 +95,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     });
 });
 
-
+Route::get('topics', "TopicController@index");
 // Route::get('transactions', "TransactionController@index");
 // Route::get('topics', "TopicController@index");
 // Route::get('nfts', "NFTController@index");
