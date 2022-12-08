@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Collection;
+use App\Filters\CollectionFilter;
 
 class CollectionController extends Controller
 {
@@ -12,13 +13,32 @@ class CollectionController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // read all collection
-        $collections = Collection::all();
+        $orderField = $request->orderBy ? $request->orderBy : 'id';
+        $order = $request->order ? $request->order : 'asc';
+        $limit = $request->limit ? $request->limit : 20;
+        $page = $request->page && $request->page > 0 ? $request->page : 1;
+        $offset = ($page - 1) * $limit;
+
+        $collectionFilter = new CollectionFilter($request);
+        $collections = Collection::filter($collectionFilter)
+            ->orderBy($orderField, $order);
+        $total = $collections->count();
+
+        $collections= $collections
+            ->offset($offset)
+            ->limit($limit)
+            ->get();
+        $currentPage = $collections->count();
+
+        // Return Json Response
         return response()->json([
-            'collections' => $collections
-         ],200);
+            'nfts' => $collections,
+            'page' => $page,
+            'currentPage' => $currentPage,
+            'total' => $total
+        ],200);
     }
 
     /**
