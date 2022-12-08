@@ -34,7 +34,7 @@ class CollectionController extends Controller
 
         // Return Json Response
         return response()->json([
-            'nfts' => $collections,
+            'collections' => $collections,
             'page' => $page,
             'currentPage' => $currentPage,
             'total' => $total
@@ -60,18 +60,25 @@ class CollectionController extends Controller
     public function store(Request $request)
     {
         try {
+
+            $imageNameLogo = Str::random(32).".".$request->url_image_logo->getClientOriginalExtension();
+            $imageNameBanner = Str::random(32).".".$request->url_image_banner->getClientOriginalExtension();
             // Create Post
             $collection = Collection::create([
                 'name' => $request->name,
-                'url_image_logo' => $request->url_image_logo,
-                'url_image_banner' => $request->url_image_banner,
+                'url_image_logo' => $imageNameLogo,
+                'url_image_banner' => $imageNameBanner,
                 'creator_id' => $request->creator_id,
                 'owner_id' => $request->owner_id,
                 'topic_id' => $request->topic_id,
                 'reaction' => $request->reaction,
                 'status' => $request->status,
             ]);
-    
+            
+            // Save Image in Storage folder
+            Storage::disk('public')->put($imageNameLogo, file_get_contents($request->url_image_logo));
+            Storage::disk('public')->put($imageNameBanner, file_get_contents($request->url_image_banner));
+            
             // Return Json Response
             return response()->json([
                 'message' => "Collection successfully created.",
@@ -137,12 +144,43 @@ class CollectionController extends Controller
             }
     
             $collection->name = $request->name;
-            $collection->url_image_logo = $request->url_image_logo;
-            $collection->url_image_banner = $request->url_image_banner;
+            // $collection->url_image_logo = $request->url_image_logo;
+            // $collection->url_image_banner = $request->url_image_banner;
             $collection->owner_id = $request->owner_id;
             $collection->topic_id = $request->topic_id;
             $collection->reaction = $request->reaction;
             $collection->status = $request->status;
+
+            if($request->url_image_logo) {
+                // Public storage
+                $storage = Storage::disk('public');
+    
+                // Old iamge delete
+                if($storage->exists($collection->url_image_logo))
+                    $storage->delete($collection->url_image_logo);
+    
+                // Image name
+                $imageNameLogo = Str::random(32).".".$request->url_image_logo->getClientOriginalExtension();
+                $collection->url_image_logo = $imageNameLogo;
+    
+                // Image save in public folder
+                $storage->put($imageNameLogo, file_get_contents($request->url_image_logo));
+            }
+            if($request->url_image_banner) {
+                // Public storage
+                $storage = Storage::disk('public');
+    
+                // Old iamge delete
+                if($storage->exists($collection->url_image_banner))
+                    $storage->delete($collection->url_image_banner);
+    
+                // Image name
+                $imageNameBanner = Str::random(32).".".$request->url_image_banner->getClientOriginalExtension();
+                $collection->url_image_banner = $imageNameBanner;
+    
+                // Image save in public folder
+                $storage->put($imageNameBanner, file_get_contents($request->url_image_banner));
+            }
 
             // Update Post
             $collection->save();
@@ -150,7 +188,7 @@ class CollectionController extends Controller
             // Return Json Response
             return response()->json([
                 'message' => "Collection successfully updated.",
-                'collection' => $post
+                'collection' => $collection
             ],200);
         } catch (\Exception $e) {
             // Return Json Response
@@ -175,6 +213,16 @@ class CollectionController extends Controller
                 'message'=>'Collection Not Found.'
             ],404);
         }
+
+        // Public storage
+        $storage = Storage::disk('public');
+
+        // Iamge delete
+        if($storage->exists($collection->url_image_logo))
+            $storage->delete($collection->url_image_logo);
+
+        if($storage->exists($collection->url_image_banner))
+            $storage->delete($collection->url_image_banner);
 
         // Delete Post
         $collection->delete();
