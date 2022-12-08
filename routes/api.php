@@ -14,6 +14,17 @@ use Illuminate\Support\Facades\Route;
 |
 */
 
+/**
+ * 
+ * Get routes without authentication
+ * 
+ */
+Route::get('topics', "TopicController@index"); // List topics
+Route::get('collections', "CollectionController@index"); // List collections
+Route::get('nfts', "NFTController@index"); // List nfts
+Route::get('nfts/{id}', "NFTController@show"); // Detail of nft
+Route::get('collections/{id}', "CollectionController@show"); // Detail of collection
+
 Route::middleware('auth:api')->get('/user', function (Request $request) {
     return $request->user();
 });
@@ -21,12 +32,12 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['middleware' => ['cors', 'json.response']], function () {
     // public routes
     Route::post('/login', 'Auth\ApiAuthController@login')->name('login.api');
-    Route::post('/register','Auth\ApiAuthController@register')->name('register.api');
+    Route::post('/register', 'Auth\ApiAuthController@register')->name('register.api');
 
     Route::post('/password/forgot', 'Auth\ResetPasswordController@forgot');
     Route::get('/password/find/{token}', 'Auth\ResetPasswordController@find');
     Route::post('/password/reset', 'Auth\ResetPasswordController@reset');
-    
+
     Route::middleware('auth:api')->group(function () {
         // our routes to be protected will go in here
         Route::post('/logout', 'Auth\ApiAuthController@logout')->name('logout.api');
@@ -40,7 +51,6 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::delete('posts/{id}', "PostController@destroy"); // Delete Post
 
         // Topic
-        Route::get('topics', "TopicController@index"); // List topics
         Route::post('topics', "TopicController@store"); // Create Topic
         Route::get('topics/{id}', "TopicController@show"); // Detail of Topic
         Route::put('topics/{id}', "TopicController@update"); // Update Topic
@@ -61,16 +71,13 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::delete('transactions/{id}', "TransactionController@destroy"); // Delete transaction
 
         // NFT
-        Route::get('nfts', "NFTController@index"); // List nfts
         Route::post('nfts', "NFTController@store"); // Create nft
-        Route::get('nfts/{id}', "NFTController@show"); // Detail of nft
         Route::put('nfts/{id}', "NFTController@update"); // Update nft
         Route::delete('nfts/{id}', "NFTController@destroy"); // Delete nft
 
         // Collection
-        Route::get('collections', "CollectionController@index"); // List collections
+
         Route::post('collections', "CollectionController@store"); // Create collection
-        Route::get('collections/{id}', "CollectionController@show"); // Detail of collection
         Route::put('collections/{id}', "CollectionController@update"); // Update collection
         Route::delete('collections/{id}', "CollectionController@destroy"); // Delete collection
 
@@ -84,13 +91,13 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::get('/admin', function (Request $request) {
             return response()->json([
                 'message' => "you are admin."
-            ],200);
+            ], 200);
         })->middleware('api.admin');
 
         Route::get('/super_admin', function (Request $request) {
             return response()->json([
                 'message' => "you are super admin."
-            ],200);
+            ], 200);
         })->middleware('api.superAdmin');
     });
 });

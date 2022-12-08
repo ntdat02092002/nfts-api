@@ -26,7 +26,7 @@ class CollectionController extends Controller
             ->orderBy($orderField, $order);
         $total = $collections->count();
 
-        $collections= $collections
+        $collections = $collections
             ->offset($offset)
             ->limit($limit)
             ->get();
@@ -34,11 +34,11 @@ class CollectionController extends Controller
 
         // Return Json Response
         return response()->json([
-            'nfts' => $collections,
+            'collections' => $collections,
             'page' => $page,
             'currentPage' => $currentPage,
             'total' => $total
-        ],200);
+        ], 200);
     }
 
     /**
@@ -61,27 +61,39 @@ class CollectionController extends Controller
     {
         try {
             // Create Post
-            $collection = Collection::create([
-                'name' => $request->name,
-                'url_image_logo' => $request->url_image_logo,
-                'url_image_banner' => $request->url_image_banner,
-                'creator_id' => $request->creator_id,
-                'owner_id' => $request->owner_id,
-                'topic_id' => $request->topic_id,
-                'reaction' => $request->reaction,
-                'status' => $request->status,
-            ]);
-    
-            // Return Json Response
-            return response()->json([
-                'message' => "Collection successfully created.",
-                'collection' => $collection
-            ],200);
+            $collection = new Collection;
+            $collection->name = $request->input('name');
+            $collection->url_image_logo = $request->file('url_image_logo')->store('logoImages');
+            $collection->url_image_banner = $request->file('url_image_banner')->store('bannerImages');
+            $collection->topic_id =  $request->input('topic_id');
+            $collection->creator_id =  $request->creator_id;
+            $collection->owner_id =  $request->owner_id;
+            $collection->reaction =  $request->reaction;
+            $collection->status =  $request->status;
+            $collection->save();
+            return $collection;
+
+            // $collection = Collection::create([
+            //     'name' => $request->name,
+            //     'url_image_logo' => $request->url_image_logo,
+            //     'url_image_banner' => $request->url_image_banner,
+            //     'creator_id' => $request->creator_id,
+            //     'owner_id' => $request->owner_id,
+            //     'topic_id' => $request->topic_id,
+            //     'reaction' => $request->reaction,
+            //     'status' => $request->status,
+            // ]);
+
+            // // Return Json Response
+            // return response()->json([
+            //     'message' => "Collection successfully created.",
+            //     'collection' => $collection
+            // ],200);
         } catch (\Exception $e) {
             // Return Json Response
             return response()->json([
                 'message' => "Something went really wrong!"
-            ],500);
+            ], 500);
         }
     }
 
@@ -95,16 +107,16 @@ class CollectionController extends Controller
     {
         // Post Detail 
         $collection = Collection::find($id);
-        if(!$collection){
-             return response()->json([
-                'message'=>'Collection Not Found.'
-            ],404);
+        if (!$collection) {
+            return response()->json([
+                'message' => 'Collection Not Found.'
+            ], 404);
         }
 
         // Return Json Response
         return response()->json([
             'collection' => $collection
-        ],200);
+        ], 200);
     }
 
     /**
@@ -130,12 +142,12 @@ class CollectionController extends Controller
         try {
             // Find Collection
             $collection = Collection::find($id);
-            if(!$collection){
-              return response()->json([
-                'message'=>'Collection Not Found.'
-              ],404);
+            if (!$collection) {
+                return response()->json([
+                    'message' => 'Collection Not Found.'
+                ], 404);
             }
-    
+
             $collection->name = $request->name;
             $collection->url_image_logo = $request->url_image_logo;
             $collection->url_image_banner = $request->url_image_banner;
@@ -146,17 +158,17 @@ class CollectionController extends Controller
 
             // Update Post
             $collection->save();
-    
+
             // Return Json Response
             return response()->json([
                 'message' => "Collection successfully updated.",
                 'collection' => $post
-            ],200);
+            ], 200);
         } catch (\Exception $e) {
             // Return Json Response
             return response()->json([
                 'message' => "Something went really wrong!",
-            ],500);
+            ], 500);
         }
     }
 
@@ -170,10 +182,10 @@ class CollectionController extends Controller
     {
         // Post Detail 
         $collection = Collection::find($id);
-        if(!$collection){
+        if (!$collection) {
             return response()->json([
-                'message'=>'Collection Not Found.'
-            ],404);
+                'message' => 'Collection Not Found.'
+            ], 404);
         }
 
         // Delete Post
@@ -182,6 +194,6 @@ class CollectionController extends Controller
         // Return Json Response
         return response()->json([
             'message' => "Collection successfully deleted."
-        ],200);
+        ], 200);
     }
 }
