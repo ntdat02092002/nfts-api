@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Collection;
 use App\Filters\CollectionFilter;
+use Illuminate\Support\Str;
+use Storage;
 
 class CollectionController extends Controller
 {
@@ -87,7 +89,8 @@ class CollectionController extends Controller
         } catch (\Exception $e) {
             // Return Json Response
             return response()->json([
-                'message' => "Something went really wrong!"
+                'message' => "Something went really wrong!",
+                'e' => $e
             ],500);
         }
     }
