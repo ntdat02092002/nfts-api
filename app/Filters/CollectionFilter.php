@@ -33,4 +33,14 @@ class CollectionFilter extends QueryFilter
             ->where('topics.name', 'like', '%'. $name. '%')
             ->select('collections.*');
     }
+
+    public function filterOwnerId($id)
+    {
+        return $this->builder->where('owner_id', '=', $id);
+    }
+
+    public function filterCreatorId($id)
+    {
+        return $this->builder->where('creator_id', '=', $id);
+    }
 }
