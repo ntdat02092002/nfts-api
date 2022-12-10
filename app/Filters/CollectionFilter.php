@@ -46,9 +46,6 @@ class CollectionFilter extends QueryFilter
 
     public function filterDescription($description)
     {
-        return $this->builder
-            ->join('topics as collection_topic', 'collection_topic.id', '=','collections.topic_id')
-            ->where('collection_topic.description', 'like', '%'.$description.'%')
-            ->select('collections.*');
+        return $this->builder->where('collections.description', 'like','%' .$description. '%');
     }
 }
