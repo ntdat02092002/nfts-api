@@ -186,4 +186,33 @@ class CollectionController extends Controller
             'message' => "Collection successfully deleted."
         ],200);
     }
+
+    public function top(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 20;
+        $page = $request->page && $request->page > 0 ? $request->page : 1;
+        $offset = ($page - 1) * $limit;
+        
+        $collections = DB::table('collections')
+            ->join('nfts', 'collections.id', '=', 'nfts.collection_id')
+            ->select('collections.*', DB::raw('sum(nfts.price) as volume'))
+            ->groupBy('collections.id')
+            ->orderBy('volume', 'DESC');
+
+        $total = $collections->count();
+
+        $collections= $collections
+            ->offset($offset)
+            ->limit($limit)
+            ->get();
+        $currentPage = $collections->count();
+
+        // Return Json Response
+        return response()->json([
+            'collections' => $collections,
+            'page' => $page,
+            'currentPage' => $currentPage,
+            'total' => $total
+        ], 200);
+    }
 }

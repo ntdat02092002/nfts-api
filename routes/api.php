@@ -101,3 +101,4 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 // Route::get('nfts', "NFTController@index");
 
 Route::get('nfts/trending', "NFTController@trending");
+Route::get('collections/top', "CollectionController@top");

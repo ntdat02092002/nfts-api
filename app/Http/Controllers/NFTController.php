@@ -204,9 +204,9 @@ class NFTController extends Controller
         $offset = ($page - 1) * $limit;
         
         $nfts = DB::table('nfts')
-            ->join('transactions', 'nfts.id', '=', 'transactions.nfts_id')
+            ->join('transactions', 'nfts.id', '=', 'transactions.nft_id')
             ->select('nfts.*', DB::raw('count(*) as number_of_transaction'))
-            ->where('transactions.created_at', Carbon::yesterday())
+            ->whereDate('transactions.created_at', Carbon::yesterday())
             ->groupBy('nfts.id')
             ->orderBy('number_of_transaction', 'DESC');
 
