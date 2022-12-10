@@ -48,4 +48,20 @@ class CollectionFilter extends QueryFilter
     {
         return $this->builder->where('collections.description', 'like','%' .$description. '%');
     }
+
+    public function filterIncludeCreator($include=0)
+    {
+        if ($include == 1) {
+            return $this->builder->with('creator');
+        }
+        return $this->builder;
+    }
+
+    public function filterIncludeOnwer($include=0)
+    {
+        if ($include == 1) {
+            return $this->builder->with('owner');
+        }
+        return $this->builder;
+    }
 }
