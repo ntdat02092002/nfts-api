@@ -4,6 +4,8 @@ namespace App\Http\Controllers;
 use App\Models\Nft;
 use Illuminate\Http\Request;
 use App\Filters\NftFilter;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class NFTController extends Controller
 {
@@ -188,5 +190,40 @@ class NFTController extends Controller
         return response()->json([
             'message' => "NFT successfully deleted."
         ],200);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function trending(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 20;
+        $page = $request->page && $request->page > 0 ? $request->page : 1;
+        $offset = ($page - 1) * $limit;
+        
+        $nfts = DB::table('nfts')
+            ->join('transactions', 'nfts.id', '=', 'transactions.nfts_id')
+            ->select('nfts.*', DB::raw('count(*) as number_of_transaction'))
+            ->where('transactions.created_at', Carbon::yesterday())
+            ->groupBy('nfts.id')
+            ->orderBy('number_of_transaction', 'DESC');
+
+        $total = $nfts->count();
+
+        $nfts= $nfts
+            ->offset($offset)
+            ->limit($limit)
+            ->get();
+        $currentPage = $nfts->count();
+
+        // Return Json Response
+        return response()->json([
+            'nfts' => $nfts,
+            'page' => $page,
+            'currentPage' => $currentPage,
+            'total' => $total
+        ], 200);
     }
 }
