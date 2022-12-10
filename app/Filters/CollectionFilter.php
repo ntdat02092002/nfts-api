@@ -57,7 +57,7 @@ class CollectionFilter extends QueryFilter
         return $this->builder;
     }
 
-    public function filterIncludeOnwer($include=0)
+    public function filterIncludeOwner($include=0)
     {
         if ($include == 1) {
             return $this->builder->with('owner');
