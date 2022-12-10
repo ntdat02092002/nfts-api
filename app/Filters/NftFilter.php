@@ -83,4 +83,12 @@ class NftFilter extends QueryFilter
         }
         return $this->builder;
     }
+    
+    public function filterIncludeCrypto($include=0)
+    {
+        if ($include == 1) {
+            return $this->builder->with('crypto');
+        }
+        return $this->builder;
+    }
 }
