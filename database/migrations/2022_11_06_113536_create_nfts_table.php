@@ -16,11 +16,11 @@ return new class extends Migration
     {
         Schema::create('nfts', function (Blueprint $table) {
             $table->id();
-            $table->string('description');
+            $table->text('description');
             $table->string('url_image_nft');
             $table->string('name');
             $table->integer('reaction')->default("100");
-            $table->integer('price')->default(0);
+            $table->decimal('price', 8, 3)->default(0);
             $table->string('status')->default("Chưa bán");
 
             $table->bigInteger('crypto_id')->unsigned();
