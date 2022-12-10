@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 class CollectionFilter extends QueryFilter
 {
     protected $filterable = [
-        'name'
+        'name', 'description'
     ];
     
     public function filterName($name)
@@ -42,5 +42,13 @@ class CollectionFilter extends QueryFilter
     public function filterCreatorId($id)
     {
         return $this->builder->where('creator_id', '=', $id);
+    }
+
+    public function filterDescription($description)
+    {
+        return $this->builder
+            ->join('topics as collection_topic', 'collection_topic.id', '=','collections.topic_id')
+            ->where('collection_topic.description', 'like', '%'.$description.'%')
+            ->select('collections.*');
     }
 }
