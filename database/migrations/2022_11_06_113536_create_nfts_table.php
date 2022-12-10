@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('nfts', function (Blueprint $table) {
             $table->id();
-            $table->string('description');
+            $table->text('description');
             $table->string('url_image_nft');
             $table->string('name');
             $table->integer('reaction')->default("100");

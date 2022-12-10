@@ -16,7 +16,7 @@ return new class extends Migration
     {
         Schema::create('collections', function (Blueprint $table) {
             $table->id();
-            $table->string('description');
+            $table->text('description');
             $table->string('url_image_logo');
             $table->string('url_image_banner');
             $table->string('name');
