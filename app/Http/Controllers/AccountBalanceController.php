@@ -42,7 +42,7 @@ class AccountBalanceController extends Controller
         try {
             // Create AccountBlance
             $accountBlance = AccountBlance::create([
-                'name' => $request->name,
+                'user_id' => $request->user_id,
                 'crypto_id' => $request->crypto_id,
                 'balance' => $request->balance
             ]);
@@ -111,7 +111,7 @@ class AccountBalanceController extends Controller
               ],404);
             }
     
-            $accountBlance->name = $request->name;
+            $accountBlance->user_id = $request->user_id;
             $accountBlance->crypto_id = $request->crypto_id;
             $accountBlance->balance = $request->balance;
 
