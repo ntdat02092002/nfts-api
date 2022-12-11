@@ -57,4 +57,38 @@ class NftFilter extends QueryFilter
     {
         return $this->builder->where('reaction','>=', $reaction);
     }
+
+    public function filterOwnerId($id)
+    {
+        return $this->builder->where('owner_id', '=', $id);
+    }
+
+    public function filterCreatorId($id)
+    {
+        return $this->builder->where('creator_id', '=', $id);
+    }
+
+    public function filterIncludeCreator($include=0)
+    {
+        if ($include == 1) {
+            return $this->builder->with('creator');
+        }
+        return $this->builder;
+    }
+
+    public function filterIncludeOwner($include=0)
+    {
+        if ($include == 1) {
+            return $this->builder->with('owner');
+        }
+        return $this->builder;
+    }
+    
+    public function filterIncludeCrypto($include=0)
+    {
+        if ($include == 1) {
+            return $this->builder->with('crypto');
+        }
+        return $this->builder;
+    }
 }
