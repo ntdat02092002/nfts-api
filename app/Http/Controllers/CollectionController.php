@@ -78,8 +78,8 @@ class CollectionController extends Controller
             ]);
             
             // Save Image in Storage folder
-            Storage::disk('public')->put($imageNameLogo, file_get_contents($request->url_image_logo));
-            Storage::disk('public')->put($imageNameBanner, file_get_contents($request->url_image_banner));
+            Storage::disk('logoImages')->put($imageNameLogo, file_get_contents($request->url_image_logo));
+            Storage::disk('bannerImages')->put($imageNameBanner, file_get_contents($request->url_image_banner));
             
             // Return Json Response
             return response()->json([
@@ -156,7 +156,7 @@ class CollectionController extends Controller
 
             if($request->url_image_logo) {
                 // Public storage
-                $storage = Storage::disk('public');
+                $storage = Storage::disk('logoImages');
     
                 // Old iamge delete
                 if($storage->exists($collection->url_image_logo))
@@ -171,7 +171,7 @@ class CollectionController extends Controller
             }
             if($request->url_image_banner) {
                 // Public storage
-                $storage = Storage::disk('public');
+                $storage = Storage::disk('bannerImages');
     
                 // Old iamge delete
                 if($storage->exists($collection->url_image_banner))
@@ -218,14 +218,15 @@ class CollectionController extends Controller
         }
 
         // Public storage
-        $storage = Storage::disk('public');
+        $storageLogo = Storage::disk('logoImages');
+        $storageBanner = Storage::disk('bannerImages');
 
         // Iamge delete
-        if($storage->exists($collection->url_image_logo))
-            $storage->delete($collection->url_image_logo);
+        if($storageLogo->exists($collection->url_image_logo))
+            $storageLogo->delete($collection->url_image_logo);
 
-        if($storage->exists($collection->url_image_banner))
-            $storage->delete($collection->url_image_banner);
+        if($storageBanner->exists($collection->url_image_banner))
+            $storageBanner->delete($collection->url_image_banner);
 
         // Delete Post
         $collection->delete();

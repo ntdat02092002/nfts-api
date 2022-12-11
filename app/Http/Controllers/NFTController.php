@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 use App\Models\Nft;
 use Illuminate\Http\Request;
 use App\Filters\NftFilter;
+use Storage;
 
 class NFTController extends Controller
 {
@@ -58,13 +59,15 @@ class NFTController extends Controller
      */
     public function store(Request $request)
     {
+        $imageNft = Str::random(32).".".$request->url_image_nft->getClientOriginalExtension();
         try {
             // Create NFT
             $nft = Nft::create([
                 'name' => $request->name,
                 'crypto_id' => $request->crypto_id,
                 'description' => $request->description,
-                'url_image_nft' => $request->url_image_nft,
+                // 'url_image_nft' => $request->url_image_nft,
+                'url_image_nft' => $imageNft,
                 'owner_id' => $request->owner_id,
                 'creator_id' => $request->creator_id,
                 'collection_id' => $request->collection_id,
@@ -73,6 +76,9 @@ class NFTController extends Controller
                 'price' => $request->price
             ]);
     
+            # Save Image nft
+            Storage::disk('nftImages')->put($imageNft, file_get_contents($request->url_image_nft));
+
             // Return Json Response
             return response()->json([
                 'message' => "NFT successfully created.",
@@ -141,7 +147,7 @@ class NFTController extends Controller
             $nft->name = $request->name;
             $nft->crypto_id = $request->crypto_id;
             $nft->description = $request->description;
-            $nft->url_image_nft = $request->url_image_nft;
+            // $nft->url_image_nft = $request->url_image_nft;
             $nft->owner_id = $request->owner_id;
             $nft->creator_id = $request->creator_id;
             $nft->collection_id = $request->collection_id;
@@ -149,7 +155,23 @@ class NFTController extends Controller
             $nft->status = $request->status;
             $nft->price = $request->price;
 
-            // Update Post
+            if($request->url_image_nft) {
+                // Public storage
+                $storage = Storage::disk('nftImages');
+    
+                // Old iamge delete
+                if($storage->exists($nft->url_image_nft))
+                    $storage->delete($nft->url_image_nft);
+    
+                // Image name
+                $imageNameNft = Str::random(32).".".$request->url_image_nft->getClientOriginalExtension();
+                $nft->url_image_nft = $imageNameNft;
+    
+                // Image save in public folder
+                $storage->put($imageNameNft, file_get_contents($request->url_image_nft));
+            }
+
+            // Update Nft
             $nft->save();
     
             // Return Json Response
@@ -180,8 +202,12 @@ class NFTController extends Controller
                 'message'=>'NFT Not Found.'
             ],404);
         }
+        // Public storage
+        $storageNft = Storage::disk('nftImages');
+        if($storageNft->exists($collection->url_image_nft))
+            $storageNft->delete($collection->url_image_nft);
 
-        // Delete Post
+        // Delete Nft
         $nft->delete();
 
         // Return Json Response
