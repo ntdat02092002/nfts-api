@@ -56,6 +56,25 @@ return [
             'throw' => false,
         ],
 
+        'logoImages' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/logoImages'),
+            'url' => env('APP_URL').'/storage/logoImages',
+            'visibility' => 'public',
+        ],
+        'bannerImages' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/bannerImages'),
+            'url' => env('APP_URL').'/storage/bannerImages',
+            'visibility' => 'public',
+        ],
+        'nftImages' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/nftImages'),
+            'url' => env('APP_URL').'/storage/nftImages',
+            'visibility' => 'public',
+        ],
+
     ],
 
     /*
@@ -71,6 +90,10 @@ return [
 
     'links' => [
         public_path('storage') => storage_path('app/public'),
+        public_path('storage/logoImages') => storage_path('app/public/logoImages'),
+        public_path('storage/bannerImages') => storage_path('app/public/bannerImages'),
+        public_path('storage/nftImages') => storage_path('app/public/nftImages'),
+        
     ],
 
 ];
