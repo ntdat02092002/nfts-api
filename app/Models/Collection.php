@@ -14,7 +14,8 @@ class Collection extends Model
     protected $table = 'collections';
 
     protected $fillable = [
-    	'name',
+        'name',
+        'description',
         'url_image_logo',
         'url_image_banner',
         'creator_id',
@@ -24,17 +25,17 @@ class Collection extends Model
         'status'
     ];
 
-    public function creator() 
+    public function creator()
     {
         return $this->belongsTo('App\Models\User', 'creator_id');
     }
 
-    public function owner() 
+    public function owner()
     {
         return $this->belongsTo('App\Models\User', 'owner_id');
     }
 
-    public function topic() 
+    public function topic()
     {
         return $this->belongsTo('App\Models\Topic', 'topic_id');
     }

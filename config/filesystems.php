@@ -72,6 +72,7 @@ return [
     'links' => [
         public_path('logoImages') => storage_path('app/logoImages'),
         public_path('bannerImages') => storage_path('app/bannerImages'),
+        public_path('nftImages') => storage_path('app/nftImages'),
     ],
 
 ];

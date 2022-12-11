@@ -2,7 +2,7 @@
 
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
-use Illuminate\Support\Facades\Schema; 
+use Illuminate\Support\Facades\Schema;
 use App\Models\Collection;
 
 return new class extends Migration
@@ -16,6 +16,7 @@ return new class extends Migration
     {
         Schema::create('collections', function (Blueprint $table) {
             $table->id();
+            $table->text('description');
             $table->string('url_image_logo');
             $table->string('url_image_banner');
             $table->string('name');
@@ -28,7 +29,7 @@ return new class extends Migration
 
             $table->integer('reaction')->default(100);
             $table->string('status')->default("Nothing");
-            
+
             $table->timestamps();
         });
     }

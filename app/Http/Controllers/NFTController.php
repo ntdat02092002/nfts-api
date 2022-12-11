@@ -1,9 +1,12 @@
 <?php
 
 namespace App\Http\Controllers;
+
 use App\Models\Nft;
 use Illuminate\Http\Request;
 use App\Filters\NftFilter;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class NFTController extends Controller
 {
@@ -25,7 +28,7 @@ class NFTController extends Controller
             ->orderBy($orderField, $order);
         $total = $nfts->count();
 
-        $nfts= $nfts
+        $nfts = $nfts
             ->offset($offset)
             ->limit($limit)
             ->get();
@@ -37,7 +40,7 @@ class NFTController extends Controller
             'page' => $page,
             'currentPage' => $currentPage,
             'total' => $total
-        ],200);
+        ], 200);
     }
 
     /**
@@ -60,30 +63,26 @@ class NFTController extends Controller
     {
         try {
             // Create NFT
-            $nft = Nft::create([
-                'name' => $request->name,
-                'crypto_id' => $request->crypto_id,
-                'description' => $request->description,
-                'url_image_nft' => $request->url_image_nft,
-                'owner_id' => $request->owner_id,
-                'creator_id' => $request->creator_id,
-                'collection_id' => $request->collection_id,
-                'reaction' => $request->reaction,
-                'status' => $request->status,
-                'price' => $request->price
-            ]);
-    
-            // Return Json Response
-            return response()->json([
-                'message' => "NFT successfully created.",
-                'nft' => $nft
-            ],200);
+            $nft = new Nft;
+            $nft->url_image_nft = $request->file('url_image_nft')->store('nftImages');
+            $nft->name = $request->name;
+            $nft->crypto_id = $request->crypto_id;
+            $nft->description = $request->description;
+            $nft->owner_id = $request->owner_id;
+            $nft->creator_id = $request->creator_id;
+            $nft->collection_id = $request->collection_id;
+            $nft->reaction = $request->reaction;
+            $nft->status = $request->status;
+            $nft->price = $request->price;
+
+            $nft->save();
+            return  $nft;
         } catch (\Exception $e) {
             // Return Json Response
             return response()->json([
                 'message' => "Something went really wrong!",
-                'e' =>$e
-            ],500);
+                'e' => $e
+            ], 500);
         }
     }
 
@@ -97,16 +96,16 @@ class NFTController extends Controller
     {
         // NFT Detail 
         $nft = Nft::find($id);
-        if(!$nft){
-             return response()->json([
-                'message'=>'NFT Not Found.'
-            ],404);
+        if (!$nft) {
+            return response()->json([
+                'message' => 'NFT Not Found.'
+            ], 404);
         }
 
         // Return Json Response
         return response()->json([
             'nft' => $nft
-        ],200);
+        ], 200);
     }
 
     /**
@@ -132,12 +131,12 @@ class NFTController extends Controller
         try {
             // Find Post
             $nft = Nft::find($id);
-            if(!$nft){
-              return response()->json([
-                'message'=>'NFT Not Found.'
-              ],404);
+            if (!$nft) {
+                return response()->json([
+                    'message' => 'NFT Not Found.'
+                ], 404);
             }
-    
+
             $nft->name = $request->name;
             $nft->crypto_id = $request->crypto_id;
             $nft->description = $request->description;
@@ -151,17 +150,17 @@ class NFTController extends Controller
 
             // Update Post
             $nft->save();
-    
+
             // Return Json Response
             return response()->json([
                 'message' => "NFT successfully updated.",
                 'nft' => $nft
-            ],200);
+            ], 200);
         } catch (\Exception $e) {
             // Return Json Response
             return response()->json([
                 'message' => "Something went really wrong!",
-            ],500);
+            ], 500);
         }
     }
 
@@ -175,10 +174,10 @@ class NFTController extends Controller
     {
         // Post Detail 
         $nft = Nft::find($id);
-        if(!$nft){
+        if (!$nft) {
             return response()->json([
-                'message'=>'NFT Not Found.'
-            ],404);
+                'message' => 'NFT Not Found.'
+            ], 404);
         }
 
         // Delete Post
@@ -187,6 +186,41 @@ class NFTController extends Controller
         // Return Json Response
         return response()->json([
             'message' => "NFT successfully deleted."
-        ],200);
+        ], 200);
+    }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function trending(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 20;
+        $page = $request->page && $request->page > 0 ? $request->page : 1;
+        $offset = ($page - 1) * $limit;
+
+        $nfts = DB::table('nfts')
+            ->join('transactions', 'nfts.id', '=', 'transactions.nft_id')
+            ->select('nfts.*', DB::raw('count(*) as number_of_transaction'))
+            ->whereDate('transactions.created_at', Carbon::yesterday())
+            ->groupBy('nfts.id')
+            ->orderBy('number_of_transaction', 'DESC');
+
+        $total = $nfts->count();
+
+        $nfts = $nfts
+            ->offset($offset)
+            ->limit($limit)
+            ->get();
+        $currentPage = $nfts->count();
+
+        // Return Json Response
+        return response()->json([
+            'nfts' => $nfts,
+            'page' => $page,
+            'currentPage' => $currentPage,
+            'total' => $total
+        ], 200);
     }
 }

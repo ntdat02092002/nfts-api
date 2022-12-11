@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Collection;
 use App\Filters\CollectionFilter;
+use Illuminate\Support\Facades\DB;
+use Carbon\Carbon;
 
 class CollectionController extends Controller
 {
@@ -67,6 +69,7 @@ class CollectionController extends Controller
             $collection->url_image_banner = $request->file('url_image_banner')->store('bannerImages');
             $collection->topic_id =  $request->input('topic_id');
             $collection->creator_id =  $request->creator_id;
+            $collection->description =  $request->description;
             $collection->owner_id =  $request->owner_id;
             $collection->reaction =  $request->reaction;
             $collection->status =  $request->status;
@@ -149,6 +152,7 @@ class CollectionController extends Controller
             }
 
             $collection->name = $request->name;
+            $collection->description = $request->description;
             $collection->url_image_logo = $request->url_image_logo;
             $collection->url_image_banner = $request->url_image_banner;
             $collection->owner_id = $request->owner_id;
@@ -162,7 +166,7 @@ class CollectionController extends Controller
             // Return Json Response
             return response()->json([
                 'message' => "Collection successfully updated.",
-                'collection' => $post
+                'collection' => $collection
             ], 200);
         } catch (\Exception $e) {
             // Return Json Response
@@ -194,6 +198,35 @@ class CollectionController extends Controller
         // Return Json Response
         return response()->json([
             'message' => "Collection successfully deleted."
+        ], 200);
+    }
+
+    public function top(Request $request)
+    {
+        $limit = $request->limit ? $request->limit : 20;
+        $page = $request->page && $request->page > 0 ? $request->page : 1;
+        $offset = ($page - 1) * $limit;
+
+        $collections = DB::table('collections')
+            ->join('nfts', 'collections.id', '=', 'nfts.collection_id')
+            ->select('collections.*', DB::raw('sum(nfts.price) as volume'))
+            ->groupBy('collections.id')
+            ->orderBy('volume', 'DESC');
+
+        $total = $collections->count();
+
+        $collections = $collections
+            ->offset($offset)
+            ->limit($limit)
+            ->get();
+        $currentPage = $collections->count();
+
+        // Return Json Response
+        return response()->json([
+            'collections' => $collections,
+            'page' => $page,
+            'currentPage' => $currentPage,
+            'total' => $total
         ], 200);
     }
 }

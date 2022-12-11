@@ -1,4 +1,5 @@
 <?php
+
 use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
@@ -16,11 +17,11 @@ return new class extends Migration
     {
         Schema::create('nfts', function (Blueprint $table) {
             $table->id();
-            $table->string('description');
+            $table->text('description');
             $table->string('url_image_nft');
             $table->string('name');
             $table->integer('reaction')->default("100");
-            $table->integer('price')->default(0);
+            $table->decimal('price', 8, 3)->default(0);
             $table->string('status')->default("Chưa bán");
 
             $table->bigInteger('crypto_id')->unsigned();
@@ -31,7 +32,7 @@ return new class extends Migration
 
             $table->bigInteger('creator_id')->unsigned();
             $table->foreign('creator_id')->references('id')->on('users')->onDelete('cascade');
-            
+
             $table->bigInteger('collection_id')->unsigned();
             $table->foreign('collection_id')->references('id')->on('collections')->onDelete('cascade');
 
