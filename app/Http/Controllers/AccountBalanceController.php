@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\AccountBlance;
+use App\Filters\AccountBalanceFilter;
 
 class AccountBalanceController extends Controller
 {
@@ -12,13 +13,32 @@ class AccountBalanceController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        // read all AccountBlance
-        $accountBlances = AccountBlance::all();
+        $orderField = $request->orderBy ? $request->orderBy : 'id';
+        $order = $request->order ? $request->order : 'asc';
+        $limit = $request->limit ? $request->limit : 20;
+        $page = $request->page && $request->page > 0 ? $request->page : 1;
+        $offset = ($page - 1) * $limit;
+
+        $AccountBalanceFilter = new AccountBalanceFilter($request);
+        $accountBalances = AccountBlance::filter($AccountBalanceFilter)
+            ->orderBy($orderField, $order);
+        $total = $accountBalances->count();
+
+        $accountBalances = $accountBalances
+            ->offset($offset)
+            ->limit($limit)
+            ->get();
+        $currentPage = $accountBalances->count();
+
+        // Return Json Response
         return response()->json([
-            'accountBlances' => $accountBlances
-         ],200);
+            'accountBalances' => $accountBalances,
+            'page' => $page,
+            'currentPage' => $currentPage,
+            'total' => $total
+        ],200);
     }
 
     /**

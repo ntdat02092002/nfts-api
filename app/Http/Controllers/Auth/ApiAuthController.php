@@ -5,6 +5,7 @@ namespace App\Http\Controllers\Auth;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Models\User;
+use App\Models\AccountBlance;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Str;
@@ -27,6 +28,14 @@ class ApiAuthController extends Controller
         $request['type'] = $request['type'] ? $request['type']  : 0;
         $user = User::create($request->toArray());
         $token = $user->createToken('Laravel Password Grant Client');
+
+        // create default account balance for user
+        AccountBlance::create([
+            'user_id' => $user->id,
+            'crypto_id' => 1,
+            'balance' => 0
+        ]);
+
         $response = ['token' => $token->accessToken];
         return response($response, 200);
     }
