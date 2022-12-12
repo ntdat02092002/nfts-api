@@ -26,6 +26,10 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::post('/password/forgot', 'Auth\ResetPasswordController@forgot');
     Route::get('/password/find/{token}', 'Auth\ResetPasswordController@find');
     Route::post('/password/reset', 'Auth\ResetPasswordController@reset');
+
+    Route::get('nfts/trending', "NFTController@trending");
+    Route::get('collections/top', "CollectionController@top");
+    Route::get('users/{id}', "UserController@show");
     
     Route::middleware('auth:api')->group(function () {
         // our routes to be protected will go in here
@@ -99,7 +103,3 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 // Route::get('transactions', "TransactionController@index");
 // Route::get('topics', "TopicController@index");
 // Route::get('nfts', "NFTController@index");
-
-Route::get('nfts/trending', "NFTController@trending");
-Route::get('collections/top', "CollectionController@top");
-Route::get('users/{id}', "UserController@show");
