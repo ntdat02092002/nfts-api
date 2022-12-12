@@ -130,9 +130,7 @@ class AccountBalanceController extends Controller
                 'message'=>'Account Blance Not Found.'
               ],404);
             }
-    
-            $accountBlance->user_id = $request->user_id;
-            $accountBlance->crypto_id = $request->crypto_id;
+ 
             $accountBlance->balance += $request->balance;
 
             // Update AccountBlance
