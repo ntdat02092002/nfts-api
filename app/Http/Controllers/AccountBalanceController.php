@@ -141,7 +141,7 @@ class AccountBalanceController extends Controller
             // Return Json Response
             return response()->json([
                 'message' => "Account Blance successfully updated.",
-                'accountBlance' => $AccountBlance
+                'accountBlance' => $accountBlance
             ],200);
         } catch (\Exception $e) {
             // Return Json Response
