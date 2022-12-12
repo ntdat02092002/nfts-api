@@ -79,11 +79,11 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::delete('collections/{id}', "CollectionController@destroy"); // Delete collection
 
         // Account Blance
-        Route::get('account_blances', "AccountBalanceController@index"); // List account_blances
-        Route::post('account_blances', "AccountBalanceController@store"); // Create account_blance
-        Route::get('account_blances/{id}', "AccountBalanceController@show"); // Detail of account_blance
-        Route::put('account_blances/{id}', "AccountBalanceController@update"); // Update account_blance
-        Route::delete('account_blances/{id}', "AccountBalanceController@destroy"); // Delete account_blance
+        Route::get('account_balances', "AccountBalanceController@index"); // List account_blances
+        Route::post('account_balances', "AccountBalanceController@store"); // Create account_blance
+        Route::get('account_balances/{id}', "AccountBalanceController@show"); // Detail of account_blance
+        Route::put('account_balances/{id}', "AccountBalanceController@update"); // Update account_blance
+        Route::delete('account_balances/{id}', "AccountBalanceController@destroy"); // Delete account_blance
 
         Route::get('/admin', function (Request $request) {
             return response()->json([
