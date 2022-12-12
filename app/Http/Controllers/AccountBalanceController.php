@@ -133,7 +133,7 @@ class AccountBalanceController extends Controller
     
             $accountBlance->user_id = $request->user_id;
             $accountBlance->crypto_id = $request->crypto_id;
-            $accountBlance->balance = $request->balance;
+            $accountBlance->balance += $request->balance;
 
             // Update AccountBlance
             $accountBlance->save();
