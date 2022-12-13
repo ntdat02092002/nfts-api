@@ -15,8 +15,8 @@ return new class extends Migration
     {
         Schema::table('users', function (Blueprint $table) {
             $table->integer('type');
-            $table->string('avatar')->nullable();
-            $table->string('cover')->nullable();
+            $table->string('avatar')->nullable()->default("/storage/app/public/userImages/user.jpg");
+            $table->string('cover')->nullable()->default("/storage/app/public/userImages/cover.jpg");
         });
     }
 
