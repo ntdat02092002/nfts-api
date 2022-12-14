@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
             $table->bigInteger('crypto_id')->unsigned();
             $table->foreign('crypto_id')->references('id')->on('cryptos')->onDelete('cascade');
-            $table->double('balance')->default(0);
+            $table->decimal('balance', 8, 3)->default(0);
             $table->timestamps();
         });
     }
