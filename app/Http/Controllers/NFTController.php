@@ -105,7 +105,7 @@ class NFTController extends Controller
     public function show($id)
     {
         // NFT Detail 
-        $nft = Nft::find($id);
+        $nft = Nft::with("collection", "creator", "owner", "crypto")->find($id);
         if(!$nft){
              return response()->json([
                 'message'=>'NFT Not Found.'
