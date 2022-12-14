@@ -18,6 +18,10 @@ class AccountBlance extends Model
         'crypto_id',
         'balance'
     ];
+    
+    protected $casts = [
+        'balance' => 'float',
+    ];
 
     public function user() 
     {
