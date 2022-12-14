@@ -65,7 +65,7 @@ class TransactionController extends Controller
             $buyer_id = $request->buyer_id;
 
             $balance_buyer = DB::table("account_blances")
-                ->where('id',$buyer_id)->value('balance');
+                ->where('user_id',$buyer_id)->value('balance');
             if($balance_buyer < $request->price) {
                 return response()->json([
                     'message' => "Số dư tài khoản của bạn không đủ để thực hiện giao dịch này! 
@@ -88,7 +88,7 @@ class TransactionController extends Controller
                 
                 // Cập nhật id người sở hữu nft và giá của nft sau khi bán
                 DB::table("nfts")
-                    ->where("user_id",$request->nft_id)
+                    ->where("id",$request->nft_id)
                     ->update(["owner_id" => $request->buyer_id,
                                 "price" => $request->price]
                             );
