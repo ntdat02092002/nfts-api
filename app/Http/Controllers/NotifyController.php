@@ -7,6 +7,7 @@ use App\Models\Notify;
 use Illuminate\Support\Str;
 use Illuminate\Support\Facades\DB;
 use Carbon\Carbon;
+use App\Filters\NotifyFilter;
 
 class NotifyController extends Controller
 {
@@ -17,7 +18,30 @@ class NotifyController extends Controller
      */
     public function index()
     {
-        //
+        $orderField = $request->orderBy ? $request->orderBy : 'id';
+        $order = $request->order ? $request->order : 'asc';
+        $limit = $request->limit ? $request->limit : 20;
+        $page = $request->page && $request->page > 0 ? $request->page : 1;
+        $offset = ($page - 1) * $limit;
+
+        $notifyFilter = new NotifyFilter($request);
+        $notifies = Notify::filter($notifyFilter)
+            ->orderBy($orderField, $order);
+        $total = $notifies->count();
+
+        $notifies= $notifies
+            ->offset($offset)
+            ->limit($limit)
+            ->get();
+        $currentPage = $notifies->count();
+
+        // Return Json Response
+        return response()->json([
+            'notifies' => $notifies,
+            'page' => $page,
+            'currentPage' => $currentPage,
+            'total' => $total
+        ],200);
     }
 
     /**
@@ -38,7 +62,27 @@ class NotifyController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        try {
+            // Create Notify
+            $notify = Notify::create([
+                'user_id' => $request->user_id,
+                'notify' => $request->notify,
+                'seen' => $request->seen,
+            ]);
+            
+            // Return Json Response
+            return response()->json([
+                'message' => "Notify successfully created.",
+                'notify' => $notify
+            ],200);
+        } catch (\Exception $e) {
+            // Return Json Response
+            return response()->json([
+                'message' => "Something went really wrong!",
+                'e' => $e
+            ],500);
+        }
+        
     }
 
     /**

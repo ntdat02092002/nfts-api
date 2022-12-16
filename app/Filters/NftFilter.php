@@ -25,7 +25,7 @@ class NftFilter extends QueryFilter
 
     public function filterStatus($status)
     {
-        return $this->builder->where('nfts.status', 'like', '%' . $status . '%');
+        return $this->builder->where('nfts.status', '=', $status);
     }
 
     public function filterIncludeCollection($include=0)

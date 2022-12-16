@@ -21,7 +21,7 @@ return new class extends Migration
             $table->string('name');
             $table->integer('reaction')->default("100");
             $table->decimal('price', 8, 3)->default(0);
-            $table->string('status')->default("Chưa bán");
+            $table->boolean('status')->default(1);
 
             $table->bigInteger('crypto_id')->unsigned();
             $table->foreign('crypto_id')->references('id')->on('cryptos')->onDelete('cascade');
