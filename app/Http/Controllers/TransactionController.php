@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\Transaction;
+use App\Models\Nft;
 use Illuminate\Support\Facades\DB;
 use App\Filters\TransactionFilter;
 
@@ -62,6 +63,19 @@ class TransactionController extends Controller
     {
         try {
             // Xử lí trước khi tạo một giao dịch mới
+            $nft = Nft::find($request->nft_id);
+            if(!$nft) {
+              return response()->json([
+                'message'=>'NFT Not Found.'
+              ], 404);
+            }
+
+            if ($nft->status == false) {
+                return response()->json([
+                    'message'=>'NFT is not for sale.'
+                  ], 400);
+            }
+
             $buyer_id = $request->buyer_id;
 
             $balance_buyer = DB::table("account_blances")
@@ -70,7 +84,7 @@ class TransactionController extends Controller
                 return response()->json([
                     'message' => "Số dư tài khoản của bạn không đủ để thực hiện giao dịch này! 
                     Vui lòng nạp thêm tiền vào tài khoản"
-                ],500);
+                ], 400);
             }
             else {
                 // Cập nhật số dư của ngươi mua
@@ -90,7 +104,8 @@ class TransactionController extends Controller
                 DB::table("nfts")
                     ->where("id",$request->nft_id)
                     ->update(["owner_id" => $request->buyer_id,
-                                "price" => $request->price]
+                                "price" => $request->price,
+                                "status" => false]
                             );
             }
 
