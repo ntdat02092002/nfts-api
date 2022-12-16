@@ -232,7 +232,7 @@ class NFTController extends Controller
         
         DB::statement("SET SQL_MODE=''");//this is the trick use it just before your query where you have used group by. Note: make sure your query is correct.
 
-        $nfts = DB::table('nfts')
+        $nfts = Nft::with("collection", "creator", "owner", "crypto")
             ->join('transactions', 'nfts.id', '=', 'transactions.nft_id')
             ->select('nfts.*', DB::raw('count(*) as number_of_transaction'))
             ->whereDate('transactions.created_at', Carbon::yesterday())
