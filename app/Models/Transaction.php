@@ -14,7 +14,6 @@ class Transaction extends Model
     protected $table = 'transactions';
 
     protected $fillable = [
-    	'name',
         'buyer_id',
         'seller_id',
         'nft_id',
