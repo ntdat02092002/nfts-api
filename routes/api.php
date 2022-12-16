@@ -85,6 +85,13 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::put('account_balances/{id}', "AccountBalanceController@update"); // Update account_blance
         Route::delete('account_balances/{id}', "AccountBalanceController@destroy"); // Delete account_blance
 
+        // Notify
+        Route::get('notifies', "NotifyController@index"); // List notifies
+        Route::post('notifies', "NotifyController@store"); // Create notifies
+        Route::get('notifies/{id}', "NotifyController@show"); // Detail of notifies
+        Route::put('notifies/{id}', "NotifyController@update"); // Update notifies
+        Route::delete('notifies/{id}', "NotifyController@destroy"); // Delete notifies
+
         Route::get('/admin', function (Request $request) {
             return response()->json([
                 'message' => "you are admin."

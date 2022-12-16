@@ -69,4 +69,9 @@ class User extends Authenticatable
     {
         return $this->hasMany('App\Models\Collection', 'creator_id');
     }
+
+    public function notifies_user()
+    {
+        return $this->hasMany('App\Models\Notify', 'user_id');
+    }
 }
