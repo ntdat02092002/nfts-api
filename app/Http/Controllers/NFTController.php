@@ -255,4 +255,25 @@ class NFTController extends Controller
             'total' => $total
         ], 200);
     }
+
+    /**
+     * Display a listing of the resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function trendingId(Request $request, $id)
+    {
+        // NFT Detail 
+        $nft = Nft::with("collection", "creator", "owner", "crypto")->find($id);
+        if(!$nft){
+             return response()->json([
+                'message'=>'NFT Not Found.'
+            ],404);
+        }
+
+        // Return Json Response
+        return response()->json([
+            'nft' => $nft
+        ],200);
+    }
 }

@@ -28,6 +28,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::post('/password/reset', 'Auth\ResetPasswordController@reset');
 
     Route::get('nfts/trending', "NFTController@trending");
+    Route::get('nfts/trending/{id}', "NFTController@trendingId");
     Route::get('collections/top', "CollectionController@top");
     Route::get('users/{id}', "UserController@show");
     
@@ -108,7 +109,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
 Route::get('nfts', "NFTController@index");
 Route::get('nfts/{id}', "NFTController@show");
-
+// Route::get('nfts/trending', "NFTController@trending");
 Route::get('cryptos', "CryptoController@index");
 Route::get('cryptos/{id}', "CryptoController@show");
 
