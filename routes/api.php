@@ -44,16 +44,16 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::delete('posts/{id}', "PostController@destroy"); // Delete Post
 
         // Topic
-        Route::get('topics', "TopicController@index"); // List topics
+        // Route::get('topics', "TopicController@index"); // List topics
         Route::post('topics', "TopicController@store"); // Create Topic
-        Route::get('topics/{id}', "TopicController@show"); // Detail of Topic
+        // Route::get('topics/{id}', "TopicController@show"); // Detail of Topic
         Route::put('topics/{id}', "TopicController@update"); // Update Topic
         Route::delete('topics/{id}', "TopicController@destroy"); // Delete Topic
 
         // Crypto
-        Route::get('cryptos', "CryptoController@index"); // List cryptos
+        // Route::get('cryptos', "CryptoController@index"); // List cryptos
         Route::post('cryptos', "CryptoController@store"); // Create Crypto
-        Route::get('cryptos/{id}', "CryptoController@show"); // Detail of Crypto
+        // Route::get('cryptos/{id}', "CryptoController@show"); // Detail of Crypto
         Route::put('cryptos/{id}', "CryptoController@update"); // Update Crypto
         Route::delete('cryptos/{id}', "CryptoController@destroy"); // Delete Crypto
 
@@ -65,16 +65,16 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::delete('transactions/{id}', "TransactionController@destroy"); // Delete transaction
 
         // NFT
-        Route::get('nfts', "NFTController@index"); // List nfts
+        // Route::get('nfts', "NFTController@index"); // List nfts
         Route::post('nfts', "NFTController@store"); // Create nft
-        Route::get('nfts/{id}', "NFTController@show"); // Detail of nft
+        // Route::get('nfts/{id}', "NFTController@show"); // Detail of nft
         Route::put('nfts/{id}', "NFTController@update"); // Update nft
         Route::delete('nfts/{id}', "NFTController@destroy"); // Delete nft
 
         // Collection
-        Route::get('collections', "CollectionController@index"); // List collections
+        // Route::get('collections', "CollectionController@index"); // List collections
         Route::post('collections', "CollectionController@store"); // Create collection
-        Route::get('collections/{id}', "CollectionController@show"); // Detail of collection
+        // Route::get('collections/{id}', "CollectionController@show"); // Detail of collection
         Route::put('collections/{id}', "CollectionController@update"); // Update collection
         Route::delete('collections/{id}', "CollectionController@destroy"); // Delete collection
 
@@ -105,6 +105,18 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         })->middleware('api.superAdmin');
     });
 });
+
+Route::get('nfts', "NFTController@index");
+Route::get('nfts/{id}', "NFTController@show");
+
+Route::get('cryptos', "CryptoController@index");
+Route::get('cryptos/{id}', "CryptoController@show");
+
+Route::get('topics', "TopicController@index");
+Route::get('topics/{id}', "TopicController@show");
+
+Route::get('collections', "CollectionController@index");
+Route::get('collections/{id}', "CollectionController@show");
 
 // Route::get('topics', "TopicController@index");
 // Route::get('transactions', "TransactionController@index");
