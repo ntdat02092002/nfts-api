@@ -230,12 +230,14 @@ class NFTController extends Controller
         $page = $request->page && $request->page > 0 ? $request->page : 1;
         $offset = ($page - 1) * $limit;
         
+        DB::statement("SET SQL_MODE=''");//this is the trick use it just before your query where you have used group by. Note: make sure your query is correct.
+
         $nfts = DB::table('nfts')
             ->join('transactions', 'nfts.id', '=', 'transactions.nft_id')
             ->select('nfts.*', DB::raw('count(*) as number_of_transaction'))
             ->whereDate('transactions.created_at', Carbon::yesterday())
             ->groupBy('nfts.id')
-            ->orderBy('number_of_transaction', 'DESC');
+            ->orderByRaw('count(*) DESC');
 
         $total = $nfts->count();
 

@@ -247,11 +247,12 @@ class CollectionController extends Controller
         $page = $request->page && $request->page > 0 ? $request->page : 1;
         $offset = ($page - 1) * $limit;
         
+        DB::statement("SET SQL_MODE=''");
         $collections = DB::table('collections')
             ->join('nfts', 'collections.id', '=', 'nfts.collection_id')
             ->select('collections.*', DB::raw('sum(nfts.price) as volume'))
             ->groupBy('collections.id')
-            ->orderBy('volume', 'DESC');
+            ->orderByRaw('sum(nfts.price) DESC');
 
         $total = $collections->count();
 
