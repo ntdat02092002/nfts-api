@@ -103,6 +103,9 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::get('notifies/{id}', "NotifyController@show"); // Detail of notifies
         Route::put('notifies/{id}', "NotifyController@update"); // Update notifies
         Route::delete('notifies/{id}', "NotifyController@destroy"); // Delete notifies
+        
+        //user
+        Route::put('users/{id}', "UserController@update");
 
         Route::get('/admin', function (Request $request) {
             return response()->json([
