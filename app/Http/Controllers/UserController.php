@@ -102,7 +102,7 @@ class UserController extends Controller
             
                 if($request->avatar) {
                     // Public storage
-                    $storage = Storage::disk('userImages');
+                    $storage = Storage::disk('avatarImages');
                 
                     // Old iamge delete
                     if($storage->exists($user->avatar))
@@ -117,7 +117,7 @@ class UserController extends Controller
                 }
                 if($request->cover) {
                     // Public storage
-                    $storage = Storage::disk('userImages');
+                    $storage = Storage::disk('coverImages');
                 
                     // Old iamge delete
                     if($storage->exists($user->cover))
