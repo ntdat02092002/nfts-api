@@ -74,10 +74,16 @@ return [
             'url' => env('APP_URL').'/storage/nftImages',
             'visibility' => 'public',
         ],
-        'userImages' => [
+        'avatarImages' => [
             'driver' => 'local',
-            'root' => storage_path('app/public/userImages'),
-            'url' => env('APP_URL').'/storage/userImages',
+            'root' => storage_path('app/public/avatarImages'),
+            'url' => env('APP_URL').'/storage/avatarImages',
+            'visibility' => 'public',
+        ],
+        'coverImages' => [
+            'driver' => 'local',
+            'root' => storage_path('app/public/coverImages'),
+            'url' => env('APP_URL').'/storage/coverImages',
             'visibility' => 'public',
         ],
     ],
@@ -98,8 +104,8 @@ return [
         public_path('storage/logoImages') => storage_path('app/public/logoImages'),
         public_path('storage/bannerImages') => storage_path('app/public/bannerImages'),
         public_path('storage/nftImages') => storage_path('app/public/nftImages'),
-        public_path('storage/userImages') => storage_path('app/public/userImages'),
-        
+        public_path('storage/avatarImages') => storage_path('app/public/avatarImages'),
+        public_path('storage/coverImages') => storage_path('app/public/coverImages'),
     ],
 
 ];
