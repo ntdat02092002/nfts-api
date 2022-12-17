@@ -74,7 +74,7 @@ return [
             'url' => env('APP_URL').'/storage/nftImages',
             'visibility' => 'public',
         ],
-        'userImages ' => [
+        'userImages' => [
             'driver' => 'local',
             'root' => storage_path('app/public/userImages'),
             'url' => env('APP_URL').'/storage/userImages',
