@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use Illuminate\Http\Request;
 use App\Models\Transaction;
 use App\Models\Nft;
+use App\Models\Notify;
 use Illuminate\Support\Facades\DB;
 use App\Filters\TransactionFilter;
 
@@ -118,6 +119,13 @@ class TransactionController extends Controller
                 'date' => $request->date,
                 'crypto_id' => $request->crypto_id,
                 'price' => $request->price
+            ]);
+
+            // create notify 
+            $notify = Notify::create([
+                'user_id' => $request->seller_id,
+                'notify' => "Your Nft". $nft->name . "has been sold",
+                'seen' => false,
             ]);
 
             return response()->json([
