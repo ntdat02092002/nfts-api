@@ -31,6 +31,18 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('collections/top', "CollectionController@top");
     Route::get('users/{id}', "UserController@show");
     
+    Route::get('nfts', "NFTController@index");
+    Route::get('nfts/{id}', "NFTController@show");
+
+    Route::get('cryptos', "CryptoController@index");
+    Route::get('cryptos/{id}', "CryptoController@show");
+
+    Route::get('topics', "TopicController@index");
+    Route::get('topics/{id}', "TopicController@show");
+
+    Route::get('collections', "CollectionController@index");
+    Route::get('collections/{id}', "CollectionController@show");
+    
     Route::middleware('auth:api')->group(function () {
         // our routes to be protected will go in here
         Route::post('/logout', 'Auth\ApiAuthController@logout')->name('logout.api');
@@ -105,20 +117,3 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         })->middleware('api.superAdmin');
     });
 });
-
-Route::get('nfts', "NFTController@index");
-Route::get('nfts/{id}', "NFTController@show");
-
-Route::get('cryptos', "CryptoController@index");
-Route::get('cryptos/{id}', "CryptoController@show");
-
-Route::get('topics', "TopicController@index");
-Route::get('topics/{id}', "TopicController@show");
-
-Route::get('collections', "CollectionController@index");
-Route::get('collections/{id}', "CollectionController@show");
-
-// Route::get('topics', "TopicController@index");
-// Route::get('transactions', "TransactionController@index");
-// Route::get('topics', "TopicController@index");
-// Route::get('nfts', "NFTController@index");
