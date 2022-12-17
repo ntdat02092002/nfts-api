@@ -91,4 +91,9 @@ class NftFilter extends QueryFilter
         }
         return $this->builder;
     }
+    
+     public function filterCollectionId($id)
+    {
+        return $this->builder->where('collection_id', '=', $id);
+    }
 }
