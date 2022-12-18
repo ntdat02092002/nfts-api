@@ -207,8 +207,8 @@ class NFTController extends Controller
         }
         // Public storage
         $storageNft = Storage::disk('nftImages');
-        if($storageNft->exists($collection->url_image_nft))
-            $storageNft->delete($collection->url_image_nft);
+        if($storageNft->exists($nft->url_image_nft))
+            $storageNft->delete($nft->url_image_nft);
 
         // Delete Nft
         $nft->delete();
