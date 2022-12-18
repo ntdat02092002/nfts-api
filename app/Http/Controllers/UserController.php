@@ -116,10 +116,6 @@ class UserController extends Controller
                     // Public storage
                     $storage = Storage::disk('coverImages');
                 
-                    // Old iamge delete
-                    if($storage->exists($user->cover))
-                        $storage->delete($user->cover);
-                
                     // Image name
                     $imageNameUser = Str::random(32).".".$request->cover->getClientOriginalExtension();
                     $user->cover = $imageNameUser;
