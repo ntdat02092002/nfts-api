@@ -16,7 +16,7 @@ class NotifyController extends Controller
      *
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
         $orderField = $request->orderBy ? $request->orderBy : 'id';
         $order = $request->order ? $request->order : 'asc';
