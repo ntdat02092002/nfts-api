@@ -51,5 +51,20 @@ class TransactionFilter extends QueryFilter
             })
             ->where('transactions.price', '=', $price);
     }
+    
+    public function filterIncludeBuyer($include=0)
+    {
+        if ($include == 1) {
+            return $this->builder->with('buyer');
+        }
+        return $this->builder;
+    }
+    public function filterIncludeSeller($include=0)
+    {
+        if ($include == 1) {
+            return $this->builder->with('seller');
+        }
+        return $this->builder;
+    }
 
 }
