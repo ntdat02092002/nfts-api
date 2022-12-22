@@ -93,7 +93,18 @@ class NotifyController extends Controller
      */
     public function show($id)
     {
-        //
+        // Crypto Detail 
+        $notify = Notify::find($id);
+        if(!$notify){
+             return response()->json([
+                'message'=>'Notify Not Found.'
+            ],404);
+        }
+
+        // Return Json Response
+        return response()->json([
+            'notify' => $notify
+        ],200);
     }
 
     /**
@@ -116,7 +127,31 @@ class NotifyController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        try {
+            $notify = Notify::find($id);
+            if(!$notify){
+              return response()->json([
+                'message'=>'Notify Not Found.'
+              ],404);
+            }
+    
+            $notify->notify = $request->notify;
+            $notify->seen = $request->seen;
+
+            // Update Crypto
+            $notify->save();
+    
+            // Return Json Response
+            return response()->json([
+                'message' => "Notify successfully updated.",
+                'notify' => $notify
+            ],200);
+        } catch (\Exception $e) {
+            // Return Json Response
+            return response()->json([
+                'message' => "Something went really wrong!",
+            ],500);
+        }
     }
 
     /**
@@ -127,6 +162,19 @@ class NotifyController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $notify = Crypto::find($id);
+        if(!$notify){
+            return response()->json([
+                'message'=>'Notify Not Found.'
+            ],404);
+        }
+
+        // Delete Post
+        $notify->delete();
+
+        // Return Json Response
+        return response()->json([
+            'message' => "Notify successfully deleted."
+        ],200);
     }
 }
