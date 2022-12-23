@@ -9,11 +9,16 @@ use Illuminate\Support\Str;
 class NotifyFilter extends QueryFilter
 {
     protected $filterable = [
-        'user_id'
+        'user_id', 'nft_id'
     ];
     
     public function filterUserId($user_id)
     {
         return $this->builder->where('notifies.user_id', '=', $user_id);
+    }
+
+    public function filterNftId($nft_id)
+    {
+        return $this->builder->where('notifies.nft_id', '=', $nft_id);
     }
 }

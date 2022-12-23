@@ -66,6 +66,7 @@ class NotifyController extends Controller
             // Create Notify
             $notify = Notify::create([
                 'user_id' => $request->user_id,
+                'nft_id' => $request->nft_id,
                 'notify' => $request->notify,
                 'seen' => $request->seen,
             ]);

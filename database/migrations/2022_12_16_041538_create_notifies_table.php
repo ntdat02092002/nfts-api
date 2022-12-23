@@ -18,6 +18,9 @@ return new class extends Migration
 
             $table->bigInteger('user_id')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
+
+            $table->bigInteger('nft_id')->unsigned();
+            $table->foreign('nft_id')->references('id')->on('nfts')->onDelete('cascade');
             
             $table->text('notify')->default("Nothing");
             $table->boolean('seen')->default(0);

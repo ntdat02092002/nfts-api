@@ -15,6 +15,7 @@ class Notify extends Model
 
     protected $fillable = [
         'user_id',
+        'nft_id',
         'notify',
         'seen'
     ];
