@@ -1,7 +1,7 @@
 # Đồ án môn học: Phát triển ứng dụng Web - UIT - 2022
 ## Đề tài: Website khám phá NFT
 ### đây là Back-end (API)
-### Link Front-end: [Front-end](https://github.com/longvoct/collections-nfts8BpIdIDo3Ayfs3XaDPO8_REg?e=h8WNJW)
+### Link Front-end: [Front-end](https://github.com/longvoct/collections-nfts)
 ### Hướng dẫn sử dụng:
 [Hướng dẫn](https://uithcm-my.sharepoint.com/:w:/g/personal/20520154_ms_uit_edu_vn/ESf5fj04gdVDtUSfF14Y0t8BpIdIDo3Ayfs3XaDPO8_REg?e=h8WNJW) **(chưa được update đầy đủ)**
 
