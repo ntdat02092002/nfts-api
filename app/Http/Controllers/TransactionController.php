@@ -124,7 +124,7 @@ class TransactionController extends Controller
             // create notify 
             $notify = Notify::create([
                 'user_id' => $request->seller_id,
-                'notify' => "Your Nft: ". $nft->name . " has been sold \n" . $nft->url_image_nft,
+                'notify' => "Your Nft: [". $nft->name . "] has been sold \n" . $nft->url_image_nft,
                 'seen' => false,
             ]);
 
