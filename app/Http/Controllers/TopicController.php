@@ -121,7 +121,7 @@ class TopicController extends Controller
     {
         try {
             // Find Post
-            $topic = Post::find($id);
+            $topic = Topic::find($id);
             if(!$topic){
               return response()->json([
                 'message'=>'Topic Not Found.'
@@ -172,14 +172,14 @@ class TopicController extends Controller
     {
         // Post Detail 
         $topic = Topic::find($id);
-        if(!$post){
+        if(!$topic){
         return response()->json([
             'message'=>'Topic Not Found.'
         ],404);
         }
 
         // Public storage
-        $storage = Storage::disk('public');
+        // $storage = Storage::disk('public');
 
         // Iamge delete
         // if($storage->exists($topic->image))
