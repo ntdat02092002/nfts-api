@@ -16,17 +16,18 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
+        \App\Models\User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'admin@zeno.com',
+            'type' => 1
+        ]);
+        // $this->call([
+        //     PostTableSeeder::class,
         // ]);
-        $this->call([
-            PostTableSeeder::class,
-        ]);
 
-        $this->call([
-            TopicSeeder::class,
-        ]);
+        // $this->call([
+        //     TopicSeeder::class,
+        // ]);
         $this->call([
             CryptoSeeder::class,
         ]);
