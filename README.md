@@ -1,3 +1,11 @@
+# Đồ án môn học: Phát triển ứng dụng Web - UIT - 2022
+## Đề tài: Website khám phá NFT
+### đây là Back-end (API)
+### Link Front-end: [Front-end](https://github.com/longvoct/collections-nfts)
+### Hướng dẫn sử dụng:
+[Hướng dẫn](https://uithcm-my.sharepoint.com/:w:/g/personal/20520154_ms_uit_edu_vn/ESf5fj04gdVDtUSfF14Y0t8BpIdIDo3Ayfs3XaDPO8_REg?e=h8WNJW) **(chưa được update đầy đủ)**
+
+------------------------------------------------------------------------------------------------------------------------------------------------------------------
 <p align="center"><a href="https://laravel.com" target="_blank"><img src="https://raw.githubusercontent.com/laravel/art/master/logo-lockup/5%20SVG/2%20CMYK/1%20Full%20Color/laravel-logolockup-cmyk-red.svg" width="400" alt="Laravel Logo"></a></p>
 
 <p align="center">

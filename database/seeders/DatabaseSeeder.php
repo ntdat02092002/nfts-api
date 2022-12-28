@@ -16,19 +16,29 @@ class DatabaseSeeder extends Seeder
     {
         // \App\Models\User::factory(10)->create();
 
-        // \App\Models\User::factory()->create([
-        //     'name' => 'Test User',
-        //     'email' => 'test@example.com',
-        // ]);
-        $this->call([
-            PostTableSeeder::class,
-        ]);
-
-        $this->call([
-            TopicSeeder::class,
-        ]);
         $this->call([
             CryptoSeeder::class,
         ]);
+
+        \App\Models\User::factory()->create([
+            'name' => 'Admin',
+            'email' => 'admin@zeno.com',
+            'type' => 1
+        ]);
+
+        \App\Models\AccountBlance::create([
+            'user_id' => 1,
+            'crypto_id' => 1,
+            'balance' => 100
+        ]);
+
+        // $this->call([
+        //     PostTableSeeder::class,
+        // ]);
+
+        // $this->call([
+        //     TopicSeeder::class,
+        // ]);
+        
     }
 }
