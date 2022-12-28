@@ -21,7 +21,7 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 Route::group(['middleware' => ['cors', 'json.response']], function () {
     // public routes
     Route::post('/login', 'Auth\ApiAuthController@login')->name('login.api');
-    Route::post('/register', 'Auth\ApiAuthController@register')->name('register.api');
+    Route::post('/register','Auth\ApiAuthController@register')->name('register.api');
 
     Route::post('/password/forgot', 'Auth\ResetPasswordController@forgot');
     Route::get('/password/find/{token}', 'Auth\ResetPasswordController@find');
@@ -30,7 +30,7 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
     Route::get('nfts/trending', "NFTController@trending");
     Route::get('collections/top', "CollectionController@top");
     Route::get('users/{id}', "UserController@show");
-
+    
     Route::get('nfts', "NFTController@index");
     Route::get('nfts/{id}', "NFTController@show");
 
@@ -42,10 +42,10 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
 
     Route::get('collections', "CollectionController@index");
     Route::get('collections/{id}', "CollectionController@show");
-
+    
     Route::get('transactions', "TransactionController@index"); // List transactions
     Route::get('transactions/{id}', "TransactionController@show"); // Detail of transaction
-
+    
     Route::middleware('auth:api')->group(function () {
         // our routes to be protected will go in here
         Route::post('/logout', 'Auth\ApiAuthController@logout')->name('logout.api');
@@ -104,20 +104,20 @@ Route::group(['middleware' => ['cors', 'json.response']], function () {
         Route::get('notifies/{id}', "NotifyController@show"); // Detail of notifies
         Route::put('notifies/{id}', "NotifyController@update"); // Update notifies
         Route::delete('notifies/{id}', "NotifyController@destroy"); // Delete notifies
-
+        
         //user
         Route::put('users/{id}', "UserController@update");
 
         Route::get('/admin', function (Request $request) {
             return response()->json([
                 'message' => "you are admin."
-            ], 200);
+            ],200);
         })->middleware('api.admin');
 
         Route::get('/super_admin', function (Request $request) {
             return response()->json([
                 'message' => "you are super admin."
-            ], 200);
+            ],200);
         })->middleware('api.superAdmin');
     });
 });
