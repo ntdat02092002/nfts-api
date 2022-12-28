@@ -20,17 +20,17 @@ class DatabaseSeeder extends Seeder
             CryptoSeeder::class,
         ]);
 
-        \App\Models\User::factory()->create([
-            'name' => 'Admin',
-            'email' => 'admin@zeno.com',
-            'type' => 1
-        ]);
+//         \App\Models\User::factory()->create([
+//             'name' => 'Admin',
+//             'email' => 'admin@zeno.com',
+//             'type' => 1
+//         ]);
 
-        \App\Models\AccountBlance::create([
-            'user_id' => 1,
-            'crypto_id' => 1,
-            'balance' => 100
-        ]);
+//         \App\Models\AccountBlance::create([
+//             'user_id' => 1,
+//             'crypto_id' => 1,
+//             'balance' => 100
+//         ]);
 
         // $this->call([
         //     PostTableSeeder::class,
