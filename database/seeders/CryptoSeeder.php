@@ -15,13 +15,16 @@ class CryptoSeeder extends Seeder
      */
     public function run()
     {
-        $faker = \Faker\Factory::create();
+        // $faker = \Faker\Factory::create();
 
-        // And now, let's create a few articles in our database:
-        for ($i = 0; $i < 10; $i++) {
-            Crypto::create([
-                'name' => $faker->sentence
-            ]);
-        }
+        // // And now, let's create a few articles in our database:
+        // for ($i = 0; $i < 10; $i++) {
+        //     Crypto::create([
+        //         'name' => $faker->sentence
+        //     ]);
+        // }
+        Crypto::create([
+            'name' => "ETH (Ethereum)"
+        ]);
     }
 }
