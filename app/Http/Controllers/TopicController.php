@@ -38,7 +38,7 @@ class TopicController extends Controller
             'page' => $page,
             'currentPage' => $currentPage,
             'total' => $total
-        ],200);
+        ], 200);
     }
 
     /**
@@ -59,22 +59,22 @@ class TopicController extends Controller
      */
     public function store(Request $request)
     {
-        try {   
+        try {
             // Create Topic
             Topic::create([
                 'name' => $request->name,
                 'image_url' => $request->image_url
             ]);
-    
+
             // Return Json Response
             return response()->json([
                 'message' => "Topic successfully created."
-            ],200);
+            ], 200);
         } catch (\Exception $e) {
             // Return Json Response
             return response()->json([
                 'message' => "Something went really wrong!"
-            ],500);
+            ], 500);
         }
     }
 
@@ -88,15 +88,15 @@ class TopicController extends Controller
     {
         //Topics Detail
         $topic = Topic::find($id);
-        if($topic) {
+        if ($topic) {
             return response()->json([
                 'message' => 'Topic Not Found'
-            ],404);
+            ], 404);
         }
 
         return response()->json([
             'topic' => $topic
-        ],200);
+        ], 200);
     }
 
     /**
@@ -121,44 +121,44 @@ class TopicController extends Controller
     {
         try {
             // Find Post
-            $topic = Post::find($id);
-            if(!$topic){
-              return response()->json([
-                'message'=>'Topic Not Found.'
-              ],404);
+            $topic = Topic::find($id);
+            if (!$topic) {
+                return response()->json([
+                    'message' => 'Topic Not Found.'
+                ], 404);
             }
-    
+
             $topic->name = $request->name;
             $topic->image_url = $request->image_url;
-    
+
             // if($request->image_url) {
             //     // Public storage
             //     $storage = Storage::disk('public');
-    
+
             //     // Old iamge delete
             //     if($storage->exists($topic->image))
             //         $storage->delete($topic->image);
-    
+
             //     // Image name
             //     $imageName = Str::random(32).".".$request->image->getClientOriginalExtension();
             //     $topic->image = $imageName;
-    
+
             //     // Image save in public folder
             //     $storage->put($imageName, file_get_contents($request->image));
             // }
-    
+
             // Update Post
             $topic->save();
-    
+
             // Return Json Response
             return response()->json([
                 'message' => "Topic successfully updated."
-            ],200);
+            ], 200);
         } catch (\Exception $e) {
             // Return Json Response
             return response()->json([
                 'message' => "Something went really wrong!"
-            ],500);
+            ], 500);
         }
     }
 
@@ -172,14 +172,14 @@ class TopicController extends Controller
     {
         // Post Detail 
         $topic = Topic::find($id);
-        if(!$post){
-        return response()->json([
-            'message'=>'Topic Not Found.'
-        ],404);
+        if (!$topic) {
+            return response()->json([
+                'message' => 'Topic Not Found.'
+            ], 404);
         }
 
         // Public storage
-        $storage = Storage::disk('public');
+        // $storage = Storage::disk('public');
 
         // Iamge delete
         // if($storage->exists($topic->image))
@@ -191,6 +191,6 @@ class TopicController extends Controller
         // Return Json Response
         return response()->json([
             'message' => "Topic successfully deleted."
-        ],200);
+        ], 200);
     }
 }
